@@ -87,6 +87,7 @@ class PluginManager(private val context: Context) {
     private var activeService: AudioCastService? = null
     private val runningPluginIds = java.util.concurrent.ConcurrentHashMap.newKeySet<String>()
     private val runningPluginThreads = java.util.concurrent.ConcurrentHashMap<String, Thread>()
+    private val backgroundThreads = java.util.concurrent.ConcurrentHashMap.newKeySet<Thread>()
 
     /**
      * Interrupts every currently-running plugin thread. A plugin's top-level script
@@ -98,6 +99,8 @@ class PluginManager(private val context: Context) {
     fun shutdown() {
         runningPluginThreads.values.forEach { it.interrupt() }
         runningPluginThreads.clear()
+        backgroundThreads.forEach { it.interrupt() }
+        backgroundThreads.clear()
         runningPluginIds.clear()
     }
 
@@ -240,12 +243,17 @@ class PluginManager(private val context: Context) {
 
                 val bgHelper = object {
                     fun run(f: Runnable) {
-                        Thread {
+                        val t = Thread {
                             val cx = enterSandboxedContext()
-                            try { cx.optimizationLevel = -1; f.run() } 
-                            catch (e: Exception) { Log.e("PluginBG", "Error", e) } 
-                            finally { RhinoContext.exit() }
-                        }.start()
+                            try { cx.optimizationLevel = -1; f.run() }
+                            catch (e: Exception) { Log.e("PluginBG", "Error", e) }
+                            finally {
+                                RhinoContext.exit()
+                                backgroundThreads.remove(Thread.currentThread())
+                            }
+                        }
+                        backgroundThreads.add(t)
+                        t.start()
                     }
                 }
                 ScriptableObject.putProperty(scope, "bg", RhinoContext.javaToJS(bgHelper, scope))
