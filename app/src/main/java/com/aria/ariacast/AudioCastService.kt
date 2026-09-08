@@ -1059,12 +1059,14 @@ class AudioCastService : Service() {
                 if (dest.port == 7000) 5000 else dest.port
             } else 5000
             
-            val socket = Socket()
+            var socket = Socket()
             try {
                 try {
                     socket.connect(java.net.InetSocketAddress(dest.host, targetPort), 5000)
                 } catch (e: Exception) {
                     if (targetPort == 5000 && (dest.port == 7000 || dest.port == 0)) {
+                        try { socket.close() } catch (ignored: Exception) {}
+                        socket = Socket()
                         socket.connect(java.net.InetSocketAddress(dest.host, 7000), 5000)
                     } else throw e
                 }
