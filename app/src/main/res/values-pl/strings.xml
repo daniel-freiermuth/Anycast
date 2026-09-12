@@ -36,7 +36,6 @@
     <string name="devices_count_format">%1$d urządzeń</string>
     <string name="settings">Ustawienia</string>
     <string name="general">Główne</string>
-    <string name="extensions">Rozszerzenia</string>
     <string name="about">O</string>
     <string name="version_format">Wersja %1$s</string>
     <string name="select_appearance">Wybierz wygląd</string>
@@ -61,8 +60,6 @@
     <string name="enable_video_desc">Przesyłaj obraz i dźwięk z ekranu</string>
     <string name="multiroom">Obsługa systemu multiroom</string>
     <string name="multiroom_desc">Umożliwia tworzenie grup głośników</string>
-    <string name="plugins">Wtyczki</string>
-    <string name="manage_plugins_desc">Zarządzaj rozszerzeniami opartymi o skrypt</string>
     <string name="notification_access">Dostęp do powiadomień</string>
     <string name="notification_access_desc">Wymagane dla metadanych multimediów</string>
     <string name="check_for_updates">Sprawdź aktualizacje</string>
@@ -70,7 +67,6 @@
     <string name="github_repo_desc">Wyświetl kod źródłowy i zgłoś problemy</string>
     <string name="reset_last_server">Zrestartuj ostatni serwer</string>
     <string name="reset_last_server_desc">Wyczyść zapisane szczegóły połączenia z serwerem</string>
-    <string name="change_plugin_folder_desc">Zmień lub wyczyść folder dla wtyczek</string>
     <string name="protocols">Protokoły</string>
     <string name="protocols_desc">Zarządzaj obsługiwanymi protokołami przesyłania strumieniowego</string>
     <string name="ariacast_protocol">AriaCast</string>
@@ -82,23 +78,7 @@
     <string name="airplay_protocol_desc">Przesyłaj strumieniowo do głośników obsługujących AirPlay</string>
     <string name="airplay2_protocol">AirPlay 2</string>
     <string name="airplay2_protocol_desc">Przesyłaj strumieniowo na komputery Mac, urządzenia Apple TV i HomePod</string>
-    <string name="plugin_folder_updated">Zaktualizowano folder wtyczek</string>
-    <string name="plugin_folder_title">Folder wtyczek</string>
-    <string name="plugin_folder_message">Aby korzystać z wtyczek, wybierz folder, w którym będą one przechowywane i aktualizowane z GitHub.</string>
-    <string name="select_folder">Wybierz folder</string>
     <string name="cancel">Anuluj</string>
-    <string name="use_default">Użyj domyślnych</string>
-    <string name="plugin_author_format">przez %1$s • v%2$s</string>
-    <string name="close">Zamknij</string>
-    <string name="configure">Skonfiguruj</string>
-    <string name="plugin_details_format">%1$s\n\nWersja: %2$s\nAutor: %3$s</string>
-    <string name="syncing_plugins">Synchronizowanie wtyczek z serwisu GitHub…</string>
-    <string name="plugins_synced">Wtyczki zaktualizowane</string>
-    <string name="sync_failed">Nie udało się zsynchronizować wtyczek</string>
-    <string name="plugin_consent_title">Wtyczki innych producentów</string>
-    <string name="plugin_consent_message">Wtyczki mogą uruchamiać niestandardowe skrypty w celu interakcji z plikami multimedialnymi i serwerami. Należy instalować wyłącznie wtyczki pochodzące z zaufanych źródeł.\n\nCzy chcesz włączyć system wtyczek?</string>
-    <string name="accept">Zaakceptuj</string>
-    <string name="decline">Odrzuć</string>
     <string name="audio_video">Dźwięk &amp; Obraz</string>
     <string name="audio_only">Tylko dźwięk</string>
     <string name="casting_to">Przesyłanie do %1$s (%2$s)</string>
@@ -151,7 +131,6 @@
     <string name="audio">Dźwięk</string>
     <string name="manual_entry">Wprowadzanie ręczne</string>
     <string name="casting">Przesyłanie</string>
-    <string name="plugin_folder">Folder wtyczek</string>
     <string name="ariacast_protocol_desc">Natywny protokół przesyłania hi-fi</string>
     <string name="companion_saved">Zapisanych: %1$s</string>
 </resources>

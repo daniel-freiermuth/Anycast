@@ -38,7 +38,6 @@
     <string name="devices_count_format">%1$d dispositivi</string>
     <string name="settings">Impostazioni</string>
     <string name="general">Generali</string>
-    <string name="extensions">Estensioni</string>
     <string name="casting">Trasmissione</string>
     <string name="about">Dettagli</string>
     <string name="version_format">Versione %1$s</string>
@@ -64,8 +63,6 @@
     <string name="enable_video_desc">Trasmetti lo schermo assieme all\'audio</string>
     <string name="multiroom">Supporto Multiroom</string>
     <string name="multiroom_desc">Permette di creare gruppi di altoparlanti</string>
-    <string name="plugins">Plugins</string>
-    <string name="manage_plugins_desc">Gestisci le estensioni tramite script</string>
     <string name="notification_access">Accesso Notifiche</string>
     <string name="notification_access_desc">Richiesto per i metadati multimediali</string>
     <string name="check_for_updates">Controlla Aggiornamenti</string>
@@ -73,8 +70,7 @@
     <string name="github_repo_desc">Vedi il codice sorgente e riporta problemi</string>
     <string name="reset_last_server">Resetta l\'ultimo server</string>
     <string name="reset_last_server_desc">Pulisci i dettagli del server salvato</string>
-    <string name="plugin_folder">Cartella Plugin</string>
-    <string name="change_plugin_folder_desc">Cambia o pulisci la cartella per i plugin</string>
+
     <!-- Protocols Activity -->
     <string name="protocols">Protocolli</string>
     <string name="protocols_desc">Gestisci i protocolli di streaming supportati</string>
@@ -86,23 +82,8 @@
     <string name="google_cast_protocol_desc">Trasmetti a dispositivi Chromecast e Nest</string>
     <string name="airplay_protocol">AirPlay 1</string>
     <string name="airplay_protocol_desc">Trasmetti ad altoparlanti AirPlay compatibili</string>
-    <string name="plugin_folder_updated">Cartella Plugin aggiornata</string>
-    <string name="plugin_folder_title">Cartella Plugin</string>
-    <string name="plugin_folder_message">Per usare i plugin, seleziona una cartella dove verranno salvati e aggiornati da GitHub.</string>
-    <string name="select_folder">Seleziona Cartella</string>
     <string name="cancel">Annulla</string>
-    <string name="use_default">Usa Predefinita</string>
-    <string name="plugin_author_format">da %1$s • v%2$s</string>
-    <string name="close">Chiudi</string>
-    <string name="configure">Configura</string>
-    <string name="plugin_details_format">%1$s\n\nVersione: %2$s\nAutore: %3$s</string>
-    <string name="syncing_plugins">Sincronizzazione plugin da GitHub…</string>
-    <string name="plugins_synced">Plugin aggiornati</string>
-    <string name="sync_failed">Sincronizzazione fallita</string>
-    <string name="plugin_consent_title">Plugin di terze parti</string>
-    <string name="plugin_consent_message">I plugin possono eseguire script personalizzati per interagire con i media e i server. Installa solo plugin da fonti attendibili.\n\nVuoi abilitare il sistema dei plugin?</string>
-    <string name="accept">Accetta</string>
-    <string name="decline">Rifiuta</string>
+
     <string name="audio_video">Audio &amp; Video</string>
     <string name="audio_only">Solo Audio</string>
     <string name="casting_to">Trasmettendo a %1$s (%2$s)</string>

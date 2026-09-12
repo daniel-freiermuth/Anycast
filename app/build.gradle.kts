@@ -84,9 +84,6 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.8")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("androidx.media:media:1.7.0")
-    
-    // Scripting engine
-    implementation("org.mozilla:rhino:1.7.15")
     implementation(libs.bouncycastle.bcprov)
     implementation(libs.jmdns)
 

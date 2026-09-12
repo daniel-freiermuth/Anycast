@@ -9,15 +9,6 @@
 # original source file name.
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
-
-# ---- Rhino JS engine (plugin system: PluginManager.kt) ----
-# Rhino does extensive reflection and dynamic class loading internally
-# (LiveConnect, interpreter/bytecode generation) that R8's static analysis
-# can't see, so it's kept whole rather than risking a stripped/renamed
-# class it loads by name at runtime.
--keep class org.mozilla.javascript.** { *; }
--dontwarn org.mozilla.javascript.**
-
 # ---- BouncyCastle (AirPlay 2 pairing/crypto, RAOP encryption) ----
 # JCE providers and algorithms are looked up by string name via
 # Security.addProvider()/Cipher.getInstance(...), not by a direct reference

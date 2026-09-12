@@ -10,6 +10,5 @@ Caratteristiche:
 * Controllo remoto: Regola il volume del ricevitore direttamente dall'app.
 * Tile Impostazioni Rapide: Avvia e interrompi la trasmissione istantaneamente dall'area delle notifiche.
 * Rete efficiente: Utilizza WebSocket binari per i comandi audio e di controllo per garantire il minimo sovraccarico.
-* Sistema di plugin: Estende le funzionalità dell'app con plugin basati su script per server specifici.
 
 Nota: L'accesso root potrebbe essere richiesto per catturare contenuti protetti da DRM da alcune applicazioni.

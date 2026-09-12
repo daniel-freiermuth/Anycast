@@ -40,7 +40,6 @@
     <!-- Settings Activity -->
     <string name="settings">Instellingen</string>
     <string name="general">Algemeen</string>
-    <string name="extensions">Extensies</string>
     <string name="casting">Casten</string>
     <string name="about">Over</string>
     <string name="version_format">Versie %1$s</string>
@@ -66,8 +65,6 @@
     <string name="enable_video_desc">Cast schermvideo samen met audio</string>
     <string name="multiroom">Multiroom ondersteuning</string>
     <string name="multiroom_desc">Maakt het mogelijk om speakergroepen aan te maken</string>
-    <string name="plugins">Plugins</string>
-    <string name="manage_plugins_desc">Beheer script-gebaseerde extensies</string>
     <string name="notification_access">Meldingstoegang</string>
     <string name="notification_access_desc">Vereist voor media-metadata</string>
     <string name="check_for_updates">Controleren op updates</string>
@@ -75,8 +72,7 @@
     <string name="github_repo_desc">Bekijk broncode en meld problemen</string>
     <string name="reset_last_server">Laatste server resetten</string>
     <string name="reset_last_server_desc">Wis opgeslagen serververbindingsdetails</string>
-    <string name="plugin_folder">Plugin-map</string>
-    <string name="change_plugin_folder_desc">Plugin-map wijzigen of wissen</string>
+
     <!-- Protocols Activity -->
     <string name="protocols">Protocollen</string>
     <string name="protocols_desc">Beheer ondersteunde streamingprotocollen</string>
@@ -88,24 +84,8 @@
     <string name="google_cast_protocol_desc">Streamen naar Chromecast- en Nest-apparaten</string>
     <string name="airplay_protocol">AirPlay 1</string>
     <string name="airplay_protocol_desc">Streamen naar compatibele AirPlay-speakers</string>
-    <!-- Plugins Activity -->
-    <string name="plugin_folder_updated">Plugin-map bijgewerkt</string>
-    <string name="plugin_folder_title">Plugin-map</string>
-    <string name="plugin_folder_message">Om plugins te gebruiken, selecteer een map waar ze worden opgeslagen en bijgewerkt vanaf GitHub.</string>
-    <string name="select_folder">Map selecteren</string>
     <string name="cancel">Annuleren</string>
-    <string name="use_default">Standaard gebruiken</string>
-    <string name="plugin_author_format">door %1$s • v%2$s</string>
-    <string name="close">Sluiten</string>
-    <string name="configure">Configureren</string>
-    <string name="plugin_details_format">%1$s\n\nVersie: %2$s\nAuteur: %3$s</string>
-    <string name="syncing_plugins">Plugins synchroniseren vanaf GitHub…</string>
-    <string name="plugins_synced">Plugins bijgewerkt</string>
-    <string name="sync_failed">Plugin-synchronisatie mislukt</string>
-    <string name="plugin_consent_title">Plugins van derden</string>
-    <string name="plugin_consent_message">Plugins kunnen aangepaste scripts uitvoeren om met media en servers te communiceren. Installeer alleen plugins van vertrouwde bronnen.\n\nWilt u het plugin-systeem inschakelen?</string>
-    <string name="accept">Accepteren</string>
-    <string name="decline">Weigeren</string>
+
     <!-- AudioCastService -->
     <string name="audio_video">Audio &amp; Video</string>
     <string name="audio_only">Alleen audio</string>

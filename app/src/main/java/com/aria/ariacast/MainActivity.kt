@@ -76,18 +76,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var addGroupButton: MaterialButton
     private lateinit var syncSection: LinearLayout
     private lateinit var syncSliderContainer: LinearLayout
-    lateinit var pluginContainer: LinearLayout
 
     lateinit var discoveryManager: DiscoveryManager
     private lateinit var serverListAdapter: ServerAdapter
     private lateinit var groupListAdapter: GroupAdapter
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var pluginManager: PluginManager
     private lateinit var updateManager: UpdateManager
 
     private var currentAccentColor: Int = R.color.accent_blue
     private var currentThemeMode: Int = ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM
-    private var lastPluginsUpdateTime: Long = 0
 
     private val _audioCastServiceFlow = MutableStateFlow<AudioCastService?>(null)
     val audioCastServiceFlow = _audioCastServiceFlow.asStateFlow()
@@ -118,7 +115,6 @@ class MainActivity : AppCompatActivity() {
                     updateSyncUi()
                 }
             }
-            pluginManager.runEnabledPlugins(this@MainActivity, s)
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
@@ -403,9 +399,6 @@ class MainActivity : AppCompatActivity() {
         currentThemeMode = sharedPreferences.getInt(SettingsActivity.KEY_THEME, ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM)
         setTheme(ThemeUtils.getThemeForAccent(currentAccentColor))
         
-        val pluginPrefs = getSharedPreferences("plugins_prefs", Context.MODE_PRIVATE)
-        lastPluginsUpdateTime = pluginPrefs.getLong("plugins_updated_at", 0)
-        
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -414,7 +407,6 @@ class MainActivity : AppCompatActivity() {
 
         mediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         discoveryManager = DiscoveryManager(this)
-        pluginManager = PluginManager(this)
         updateManager = UpdateManager(this)
 
         stateTextView = findViewById(R.id.stateTextView)
@@ -423,7 +415,6 @@ class MainActivity : AppCompatActivity() {
         serverRecyclerView = findViewById(R.id.serverRecyclerView)
         permissionButton = findViewById(R.id.permissionButton)
         statusCard = findViewById(R.id.statusCard)
-        pluginContainer = findViewById(R.id.pluginContainer)
         groupsSection = findViewById(R.id.groupsSection)
         groupRecyclerView = findViewById(R.id.groupRecyclerView)
         addGroupButton = findViewById(R.id.addGroupButton)
@@ -570,7 +561,6 @@ class MainActivity : AppCompatActivity() {
         }
         
         checkNotificationListenerPermission()
-        pluginManager.runEnabledPlugins(this, audioCastService)
         lifecycleScope.launch {
             updateManager.checkForUpdates(manual = false)
         }
@@ -610,7 +600,7 @@ class MainActivity : AppCompatActivity() {
                 destinations.forEach { dest ->
                     var sliderItem = existingSliders[dest.host]
                     if (sliderItem == null) {
-                        sliderItem = layoutInflater.inflate(R.layout.item_plugin_slider, syncSliderContainer, false)
+                        sliderItem = layoutInflater.inflate(R.layout.item_sync_slider, syncSliderContainer, false)
                         sliderItem.tag = dest.host
                         syncSliderContainer.addView(sliderItem)
                     }
@@ -755,11 +745,6 @@ class MainActivity : AppCompatActivity() {
         discoveryManager.stopDiscovery()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        pluginManager.shutdown()
-    }
-    
     override fun onResume() {
         super.onResume()
         checkNotificationListenerPermission()
@@ -767,17 +752,11 @@ class MainActivity : AppCompatActivity() {
         val newAccent = sharedPreferences.getInt(SettingsActivity.KEY_ACCENT_COLOR, R.color.accent_blue)
         val newThemeMode = sharedPreferences.getInt(SettingsActivity.KEY_THEME, ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM)
         
-        val pluginPrefs = getSharedPreferences("plugins_prefs", Context.MODE_PRIVATE)
-        val currentPluginsUpdate = pluginPrefs.getLong("plugins_updated_at", 0)
-
-        if (newAccent != currentAccentColor || newThemeMode != currentThemeMode || currentPluginsUpdate != lastPluginsUpdateTime) {
-            pluginManager.shutdown()
+        if (newAccent != currentAccentColor || newThemeMode != currentThemeMode) {
             recreate()
             return
         }
 
-        pluginManager.runEnabledPlugins(this, audioCastService)
-        
         val isMultiroomEnabled = sharedPreferences.getBoolean(SettingsActivity.KEY_MULTIROOM_ENABLED, false)
         groupsSection.visibility = if (isMultiroomEnabled) View.VISIBLE else View.GONE
         _refreshTrigger.value++

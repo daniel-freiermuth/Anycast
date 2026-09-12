@@ -84,7 +84,6 @@
         <activity android:name=".AirPlayPinsActivity" android:exported="false" />
         <activity android:name=".NfcWriteActivity" android:exported="false" />
         <activity android:name=".PacketLogActivity" android:exported="false" />
-        <activity android:name=".PluginsActivity" android:exported="false" />
         <activity android:name=".AriaCompanionActivity" android:exported="false" />
 
     </application>

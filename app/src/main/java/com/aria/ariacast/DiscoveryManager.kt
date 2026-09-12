@@ -348,7 +348,7 @@ class DiscoveryManager(private val context: Context) {
     }
 
     /**
-     * Adds a server that was entered manually (e.g. via the "Manual Server Entry" plugin)
+     * Adds a server that was entered manually
      * rather than discovered through mDNS/SSDP/UDP. Returns false if the host is not a
      * valid IP address, true once the server has been merged into [servers].
      */

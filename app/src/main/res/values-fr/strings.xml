@@ -44,7 +44,6 @@
     <!-- Settings Activity -->
     <string name="settings">Paramètres</string>
     <string name="general">Général</string>
-    <string name="extensions">Extensions</string>
     <string name="casting">Diffusion</string>
     <string name="about">À propos</string>
     <string name="version_format">Version %1$s</string>
@@ -70,8 +69,6 @@
     <string name="enable_video_desc">Diffuser la vidéo de l\'écran avec l\'audio</string>
     <string name="multiroom">Support Multiroom</string>
     <string name="multiroom_desc">Permette de créer des groupes d\'enceintes</string>
-    <string name="plugins">Plugins</string>
-    <string name="manage_plugins_desc">Gérer les extensions basées sur des scripts</string>
     <string name="notification_access">Accès aux notifications</string>
     <string name="notification_access_desc">Requis pour les métadonnées multimédias ET pour démarrer la lecture sur certains récepteurs</string>
     <string name="check_for_updates">Vérifier les mises à jour</string>
@@ -79,8 +76,7 @@
     <string name="github_repo_desc">Voir le code source et signaler des problèmes</string>
     <string name="reset_last_server">Réinitialiser le dernier serveur</string>
     <string name="reset_last_server_desc">Effacer les détails de connexion du dernier serveur enregistré</string>
-    <string name="plugin_folder">Dossier des plugins</string>
-    <string name="change_plugin_folder_desc">Changer ou effacer le dossier des plugins</string>
+
     <!-- Protocols Activity -->
     <string name="protocols">Protocoles</string>
     <string name="protocols_desc">Gérer les protocoles de diffusion pris en charge</string>
@@ -94,24 +90,8 @@
     <string name="airplay_protocol_desc">Diffuser vers des enceintes AirPlay compatibles</string>
     <string name="airplay2_protocol">AirPlay 2</string>
     <string name="airplay2_protocol_desc">Diffuser vers des Mac, Apple TV et HomePod</string>
-    <!-- Plugins Activity -->
-    <string name="plugin_folder_updated">Dossier des plugins mis à jour</string>
-    <string name="plugin_folder_title">Dossier des plugins</string>
-    <string name="plugin_folder_message">Pour utiliser les plugins, veuillez sélectionner un dossier où ils seront stockés et mis à jour depuis GitHub.</string>
-    <string name="select_folder">Sélectionner un dossier</string>
     <string name="cancel">Annuler</string>
-    <string name="use_default">Utiliser par défaut</string>
-    <string name="plugin_author_format">par %1$s • v%2$s</string>
-    <string name="close">Fermer</string>
-    <string name="configure">Configurer</string>
-    <string name="plugin_details_format">%1$s\n\nVersion : %2$s\nAuteur : %3$s</string>
-    <string name="syncing_plugins">Synchronisation des plugins depuis GitHub…</string>
-    <string name="plugins_synced">Plugins mis à jour</string>
-    <string name="sync_failed">Échec de la synchronisation des plugins</string>
-    <string name="plugin_consent_title">Plugins tiers</string>
-    <string name="plugin_consent_message">Les plugins peuvent exécuter des scripts personnalisés pour interagir avec les médias et les serveurs. Installez uniquement des plugins de sources fiables.\n\nSouhaitez-vous activer le système de plugins ?</string>
-    <string name="accept">Accepter</string>
-    <string name="decline">Refuser</string>
+
     <!-- AudioCastService -->
     <string name="audio_video">Audio &amp; Vidéo</string>
     <string name="audio_only">Audio uniquement</string>

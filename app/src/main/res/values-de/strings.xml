@@ -40,7 +40,6 @@
     <!-- Settings Activity -->
     <string name="settings">Einstellungen</string>
     <string name="general">Allgemein</string>
-    <string name="extensions">Erweiterungen</string>
     <string name="casting">Streaming</string>
     <string name="about">Über</string>
     <string name="version_format">Version %1$s</string>
@@ -66,8 +65,6 @@
     <string name="enable_video_desc">Bildschirmvideo zusammen mit Audio übertragen</string>
     <string name="multiroom">Multiroom-Unterstützung</string>
     <string name="multiroom_desc">Ermöglicht das Erstellen von Lautsprechergruppen</string>
-    <string name="plugins">Plugins</string>
-    <string name="manage_plugins_desc">Skriptbasierte Erweiterungen verwalten</string>
     <string name="notification_access">Benachrichtigungszugriff</string>
     <string name="notification_access_desc">Erforderlich für Medienmetadaten</string>
     <string name="check_for_updates">Nach Updates suchen</string>
@@ -75,8 +72,6 @@
     <string name="github_repo_desc">Quellcode ansehen und Probleme melden</string>
     <string name="reset_last_server">Letzten Server zurücksetzen</string>
     <string name="reset_last_server_desc">Gespeicherte Serververbindungsdetails löschen</string>
-    <string name="plugin_folder">Plugin-Ordner</string>
-    <string name="change_plugin_folder_desc">Plugin-Ordner ändern oder löschen</string>
     <!-- Protocols Activity -->
     <string name="protocols">Protokolle</string>
     <string name="protocols_desc">Unterstützte Streaming-Protokolle verwalten</string>
@@ -88,24 +83,7 @@
     <string name="google_cast_protocol_desc">Streamen auf Chromecast- und Nest-Geräte</string>
     <string name="airplay_protocol">AirPlay 1</string>
     <string name="airplay_protocol_desc">Streamen auf kompatible AirPlay-Lautsprecher</string>
-    <!-- Plugins Activity -->
-    <string name="plugin_folder_updated">Plugin-Ordner aktualisiert</string>
-    <string name="plugin_folder_title">Plugin-Ordner</string>
-    <string name="plugin_folder_message">Um Plugins zu verwenden, wählen Sie bitte einen Ordner aus, in dem diese gespeichert und von GitHub aktualisiert werden.</string>
-    <string name="select_folder">Ordner wählen</string>
     <string name="cancel">Abbrechen</string>
-    <string name="use_default">Standard verwenden</string>
-    <string name="plugin_author_format">von %1$s • v%2$s</string>
-    <string name="close">Schließen</string>
-    <string name="configure">Konfigurieren</string>
-    <string name="plugin_details_format">%1$s\n\nVersion: %2$s\nAutor: %3$s</string>
-    <string name="syncing_plugins">Plugins werden von GitHub synchronisiert…</string>
-    <string name="plugins_synced">Plugins aktualisiert</string>
-    <string name="sync_failed">Plugin-Synchronisierung fehlgeschlagen</string>
-    <string name="plugin_consent_title">Drittanbieter-Plugins</string>
-    <string name="plugin_consent_message">Plugins können benutzerdefinierte Skripte ausführen, um mit Medien und Servern zu interagieren. Installieren Sie Plugins nur aus vertrauenswürdigen Quellen.\n\nMöchten Sie das Plugin-System aktivieren?</string>
-    <string name="accept">Akzeptieren</string>
-    <string name="decline">Ablehnen</string>
     <!-- AudioCastService -->
     <string name="audio_video">Audio &amp; Video</string>
     <string name="audio_only">Nur Audio</string>

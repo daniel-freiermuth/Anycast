@@ -58,7 +58,6 @@
     <!-- Settings Activity -->
     <string name="settings">Settings</string>
     <string name="general">General</string>
-    <string name="extensions">Extensions</string>
     <string name="casting">Casting</string>
     <string name="about">About</string>
     <string name="version_format">Version %1$s</string>
@@ -84,8 +83,6 @@
     <string name="enable_video_desc">Cast screen video alongside audio</string>
     <string name="multiroom">Multiroom Support</string>
     <string name="multiroom_desc">Allows creating speaker groups</string>
-    <string name="plugins">Plugins</string>
-    <string name="manage_plugins_desc">Manage script-based extensions</string>
     <string name="notification_access">Notification Access</string>
     <string name="notification_access_desc">Required for media metadata AND to start playback on some receivers</string>
     <string name="check_for_updates">Check for Updates</string>
@@ -93,8 +90,6 @@
     <string name="github_repo_desc">View source code and report issues</string>
     <string name="reset_last_server">Reset Last Server</string>
     <string name="reset_last_server_desc">Clear saved server connection details</string>
-    <string name="plugin_folder">Plugin Folder</string>
-    <string name="change_plugin_folder_desc">Change or clear the folder for plugins</string>
 
     <!-- Protocols Activity -->
     <string name="protocols">Protocols</string>
@@ -112,26 +107,7 @@
     <string name="snapcast_protocol">Snapcast</string>
     <string name="snapcast_protocol_desc">Stream to Snapcast multi-room audio servers</string>
 
-    <!-- Plugins Activity -->
-    <string name="plugin_folder_updated">Plugin folder updated</string>
-    <string name="plugin_folder_title">Plugin Folder</string>
-    <string name="plugin_folder_message">To use plugins, please select a folder where they will be stored and updated from GitHub.</string>
-    <string name="select_folder">Select Folder</string>
     <string name="cancel">Cancel</string>
-    <string name="use_default">Use Default</string>
-    <string name="plugin_author_format">by %1$s • v%2$s</string>
-    <string name="close">Close</string>
-    <string name="configure">Configure</string>
-    <string name="plugin_details_format">%1$s\n\nVersion: %2$s\nAuthor: %3$s</string>
-    <string name="syncing_plugins">Syncing plugins from GitHub…</string>
-    <string name="plugins_synced">Plugins updated</string>
-    <string name="sync_failed">Failed to sync plugins</string>
-    <string name="plugins_updated_disabled_title">Updated plugins turned off</string>
-    <string name="plugins_updated_disabled_message">%1$s changed since you enabled them, so they\'ve been turned off. Review what changed before re-enabling.</string>
-    <string name="plugin_consent_title">Third-party Plugins</string>
-    <string name="plugin_consent_message">Plugins are full app extensions, not sandboxed widgets: an enabled plugin can read what\'s playing (including raw audio), control casting, and reach the network. Only enable plugins from sources you trust as much as the app itself.\n\nDo you want to enable the plugin system?</string>
-    <string name="accept">Accept</string>
-    <string name="decline">Decline</string>
 
     <!-- AudioCastService -->
     <string name="audio_video">Audio &amp; Video</string>

@@ -10,6 +10,5 @@ Features:
 * Remote Control: Adjust the receiver's volume directly from the app.
 * Quick Settings Tile: Start and stop casting instantly from your notification shade.
 * Efficient Networking: Uses binary WebSockets for audio and control commands to ensure minimal overhead.
-* Plugin System: Extends the app's functionality with script-based plugins for specific servers.
 
 Note: Root access may be required to capture DRM-protected content from some applications.
