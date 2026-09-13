@@ -2358,6 +2358,15 @@ class AudioCastService : Service() {
         Log.d(TAG, "Volume session stopped")
     }
 
+    /** Re-assert our volume MediaSession priority.
+     *  Called when a media app starts (its MediaSession steals volume-key routing). */
+    fun reactivateVolumeSession() {
+        val session = mediaSession ?: return
+        session.isActive = false
+        session.isActive = true
+        Log.d(TAG, "Volume session re-activated — reclaimed hardware volume keys")
+    }
+
     private fun stopRemoteSessions(destinations: List<CastDestination>): List<Job> {
         return destinations.map { dest ->
             scope.launch {

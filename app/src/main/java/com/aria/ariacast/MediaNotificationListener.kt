@@ -143,6 +143,11 @@ class MediaNotificationListener : NotificationListenerService() {
             } else {
                 positionUpdateJob?.cancel()
             }
+
+            // A new media app's MediaSession steals hardware-volume-key routing from
+            // our remote VolumeProvider. Re-activate the AriaCast volume session so
+            // hardware keys keep controlling the AirPlay receiver.
+            audioCastService?.reactivateVolumeSession()
         } else if (newMediaController == null && activeMediaController != null) {
             activeMediaController?.unregisterCallback(mediaControllerCallback)
             activeMediaController = null
@@ -173,6 +178,8 @@ class MediaNotificationListener : NotificationListenerService() {
             syncMetadata()
             if (state?.state == PlaybackState.STATE_PLAYING) {
                 startPositionUpdates()
+                // Playback start can re-prioritize the media app's session
+                audioCastService?.reactivateVolumeSession()
             } else {
                 positionUpdateJob?.cancel()
             }
