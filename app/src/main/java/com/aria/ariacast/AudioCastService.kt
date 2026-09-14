@@ -21,6 +21,9 @@ import android.media.AudioRecord
 import android.media.MediaCodec
 import android.media.MediaCodecInfo
 import android.media.MediaFormat
+import android.media.MediaRoute2Info
+import android.media.MediaRouter2
+import android.media.RouteDiscoveryPreference
 import android.media.projection.MediaProjection
 import android.media.session.MediaSession
 import android.media.session.PlaybackState
@@ -105,6 +108,7 @@ class AudioCastService : Service() {
     private var videoCodec: MediaCodec? = null
     private var wakeLock: PowerManager.WakeLock? = null
     private var mediaSession: MediaSession? = null
+    private var receiverVolumeSteps: Int = MAX_VOLUME_STEPS
     
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var securePreferences: SharedPreferences
@@ -238,7 +242,18 @@ class AudioCastService : Service() {
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         securePreferences = getSharedPreferences(SECURE_PREFS_NAME, MODE_PRIVATE)
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-        
+
+        // Register route discovery so the system output picker shows MediaRoute2
+        // routes when targeting our package's MediaSession.  Without this, the
+        // picker has no discovery preferences for us and shows nothing.
+        val router = MediaRouter2.getInstance(this)
+        router.registerRouteCallback(mainExecutor, object : MediaRouter2.RouteCallback() {},
+            RouteDiscoveryPreference.Builder(
+                listOf(MediaRoute2Info.FEATURE_LIVE_AUDIO, MediaRoute2Info.FEATURE_REMOTE_PLAYBACK),
+                true  // activeScan
+            ).build()
+        )
+
         startMetadataWorker()
         startArtworkServer()
     }
@@ -418,6 +433,7 @@ class AudioCastService : Service() {
 
         acquireWakeLock()
         startVolumeSession()
+        updateNotification()
 
         val companionIp = sharedPreferences.getString(AriaCompanionActivity.KEY_COMPANION_IP, null)
         val companionPort = sharedPreferences.getInt(AriaCompanionActivity.KEY_COMPANION_PORT, COMPANION_API_PORT)
@@ -593,6 +609,7 @@ class AudioCastService : Service() {
         // Only intercept volume keys for protocols with remote volume control
         if (destinations.any { it.platform in listOf("AirPlay", "AirPlay2", "AriaCast", "DLNA") }) {
             startVolumeSession()
+            updateNotification()
         }
 
         // MediaProjection token is single-use on Android 14+; obtain it once before any retries.
@@ -1799,7 +1816,7 @@ class AudioCastService : Service() {
 
     /** Send an absolute volume in dB to all active receivers.
      *  AirPlay range: -30.0 (silent) to 0.0 (max). */
-    private fun sendVolumeDb(dB: Double) {
+    internal fun sendVolumeDb(dB: Double) {
         Log.d(TAG, "Setting receiver volume to $dB dB")
         scope.launch {
             // AirPlay 1 (RAOP)
@@ -2319,9 +2336,8 @@ class AudioCastService : Service() {
     /** Start a MediaSession with a remote VolumeProvider so the phone's
      *  hardware volume buttons control the AirPlay receiver volume. */
     private fun startVolumeSession() {
-        val session = MediaSession(this, "AriaCast")
+        val session = MediaSession(this, "AriaCast-vol-${System.nanoTime()}")
 
-        // Claim media button priority so volume keys route to us, not the music app
         @Suppress("DEPRECATION")
         session.setFlags(
             MediaSession.FLAG_HANDLES_MEDIA_BUTTONS or
@@ -2333,26 +2349,23 @@ class AudioCastService : Service() {
             .setActions(PlaybackState.ACTION_PLAY or PlaybackState.ACTION_PAUSE)
             .build())
 
-        session.setCallback(object : MediaSession.Callback() {
-            // Empty callback — needed to claim media button routing
-        })
+        session.setCallback(object : MediaSession.Callback() {})
 
         // AirPlay volume: -30 dB (silent) to 0 dB (max), 30 steps of 1 dB
-        val maxSteps = 30
         session.setPlaybackToRemote(object : VolumeProvider(
-            VOLUME_CONTROL_ABSOLUTE, maxSteps, maxSteps
+            VOLUME_CONTROL_ABSOLUTE, MAX_VOLUME_STEPS, receiverVolumeSteps
         ) {
             override fun onSetVolumeTo(volume: Int) {
+                receiverVolumeSteps = volume
                 setCurrentVolume(volume)
-                val dB = volume - maxSteps
-                sendVolumeDb(dB.toDouble())
+                sendVolumeDb((volume - MAX_VOLUME_STEPS).toDouble())
             }
 
             override fun onAdjustVolume(direction: Int) {
-                val newVol = (currentVolume + direction).coerceIn(0, maxSteps)
+                val newVol = (currentVolume + direction).coerceIn(0, MAX_VOLUME_STEPS)
+                receiverVolumeSteps = newVol
                 setCurrentVolume(newVol)
-                val dB = newVol - maxSteps
-                sendVolumeDb(dB.toDouble())
+                sendVolumeDb((newVol - MAX_VOLUME_STEPS).toDouble())
             }
         })
 
@@ -2368,14 +2381,6 @@ class AudioCastService : Service() {
         Log.d(TAG, "Volume session stopped")
     }
 
-    /** Re-assert our volume MediaSession priority.
-     *  Called when a media app starts (its MediaSession steals volume-key routing). */
-    fun reactivateVolumeSession() {
-        val session = mediaSession ?: return
-        session.isActive = false
-        session.isActive = true
-        Log.d(TAG, "Volume session re-activated — reclaimed hardware volume keys")
-    }
 
     private fun stopRemoteSessions(destinations: List<CastDestination>): List<Job> {
         return destinations.map { dest ->
@@ -2457,10 +2462,21 @@ class AudioCastService : Service() {
         val stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
         remoteViews.setOnClickPendingIntent(R.id.notification_stop_button, stopPendingIntent)
 
-        return NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+        val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_tile_icon)
             .setCustomContentView(remoteViews)
-            .build()
+
+        // Link the notification to our MediaSession so Android treats it as THE
+        // active media notification — this gives our remote VolumeProvider priority
+        // for hardware volume keys, even when another app is playing.
+        mediaSession?.sessionToken?.let { token ->
+            builder.setStyle(
+                androidx.media.app.NotificationCompat.MediaStyle()
+                    .setMediaSession(android.support.v4.media.session.MediaSessionCompat.Token.fromToken(token))
+            )
+        }
+
+        return builder.build()
     }
 
     override fun onDestroy() {
@@ -2503,6 +2519,7 @@ class AudioCastService : Service() {
         // bespoke TCP port on the phone).
         const val COMPANION_API_PORT = 8081
         private const val AP2_ALAC_FRAME_SIZE = 352  // ALAC frame size in samples for AirPlay 2
+        private const val MAX_VOLUME_STEPS = 30
         
         const val VIDEO_WIDTH = 1280
         const val VIDEO_HEIGHT = 720

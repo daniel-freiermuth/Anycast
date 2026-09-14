@@ -65,6 +65,7 @@ class MediaNotificationListener : NotificationListenerService() {
         }
     }
 
+
     private fun startStateObservation(service: AudioCastService) {
         stateObservationJob?.cancel()
         stateObservationJob = scope.launch {
@@ -144,10 +145,6 @@ class MediaNotificationListener : NotificationListenerService() {
                 positionUpdateJob?.cancel()
             }
 
-            // A new media app's MediaSession steals hardware-volume-key routing from
-            // our remote VolumeProvider. Re-activate the AriaCast volume session so
-            // hardware keys keep controlling the AirPlay receiver.
-            audioCastService?.reactivateVolumeSession()
         } else if (newMediaController == null && activeMediaController != null) {
             activeMediaController?.unregisterCallback(mediaControllerCallback)
             activeMediaController = null
@@ -161,6 +158,7 @@ class MediaNotificationListener : NotificationListenerService() {
         val componentName = ComponentName(this, MediaNotificationListener::class.java)
         return try {
             mediaSessionManager.getActiveSessions(componentName)
+                .filter { it.packageName != packageName }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to get active media sessions", e)
             emptyList()
@@ -178,8 +176,6 @@ class MediaNotificationListener : NotificationListenerService() {
             syncMetadata()
             if (state?.state == PlaybackState.STATE_PLAYING) {
                 startPositionUpdates()
-                // Playback start can re-prioritize the media app's session
-                audioCastService?.reactivateVolumeSession()
             } else {
                 positionUpdateJob?.cancel()
             }

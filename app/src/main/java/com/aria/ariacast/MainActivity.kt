@@ -406,7 +406,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         mediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-        discoveryManager = DiscoveryManager(this)
+        discoveryManager = (application as AriaCastApp).discoveryManager
         updateManager = UpdateManager(this)
 
         stateTextView = findViewById(R.id.stateTextView)
