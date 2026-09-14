@@ -48,15 +48,11 @@
     <string name="language">மொழி</string>
     <string name="select_language">மொழியைத் தேர்ந்தெடுக்கவும்</string>
     <string name="language_default">கணினி இயல்புநிலை</string>
-    <string name="enable_video">வீடியோவை இயக்கு</string>
-    <string name="enable_video_desc">ஆடியோவுடன் திரை வீடியோவை அனுப்பவும்</string>
     <string name="notification_access">அறிவிப்பு அணுகல்</string>
     <string name="notification_access_desc">மீடியா மெட்டாடேட்டாவுக்குத் தேவை</string>
     <string name="reset_last_server">கடைசி சேவையகத்தை மீட்டமைக்கவும்</string>
     <string name="reset_last_server_desc">சேமித்த சர்வர் இணைப்பு விவரங்களை அழிக்கவும்</string>
     <string name="cancel">ரத்துசெய்</string>
-    <string name="audio_video">ஆடியோ &amp; வீடியோ</string>
-    <string name="audio_only">ஆடியோ மட்டும்</string>
     <string name="casting_to">%1$s (%2$s) க்கு அனுப்புகிறது</string>
     <string name="casting_to_multiple">%1$d சாதனங்களுக்கு அனுப்புகிறது</string>
     <string name="connecting_to">%1$s உடன் இணைக்கிறது</string>

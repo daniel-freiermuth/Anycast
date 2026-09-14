@@ -50,8 +50,6 @@
     <string name="language">言語</string>
     <string name="select_language">言語を選択</string>
     <string name="language_default">システムデフォルト</string>
-    <string name="enable_video">ビデオを有効にする</string>
-    <string name="enable_video_desc">オーディオと一緒に画面のビデオをキャストする</string>
     <string name="notification_access">通知へのアクセス</string>
     <string name="notification_access_desc">メディアメタデータに必要です</string>
     <string name="reset_last_server">最後のサーバーをリセット</string>
@@ -71,8 +69,6 @@
     <string name="cancel">キャンセル</string>
 
     <!-- AudioCastService -->
-    <string name="audio_video">オーディオとビデオ</string>
-    <string name="audio_only">オーディオのみ</string>
     <string name="casting_to">%1$s (%2$s) にキャスト中</string>
     <string name="casting_to_multiple">%1$d 台のデバイスにキャスト中</string>
     <string name="connecting_to">%1$s に接続中</string>

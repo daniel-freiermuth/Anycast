@@ -11,16 +11,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ServiceInfo
-import android.hardware.display.DisplayManager
-import android.hardware.display.VirtualDisplay
 import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioPlaybackCaptureConfiguration
 import android.media.AudioRecord
-import android.media.MediaCodec
-import android.media.MediaCodecInfo
-import android.media.MediaFormat
 import android.media.MediaRoute2Info
 import android.media.MediaMetadata
 import android.media.session.MediaSession
@@ -34,9 +29,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.WindowManager
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import io.ktor.client.*
@@ -105,8 +98,6 @@ class AudioCastService : Service() {
     private lateinit var mediaProjectionManager: MediaProjectionManager
     private var mediaProjection: MediaProjection? = null
     private var audioRecord: AudioRecord? = null
-    private var virtualDisplay: VirtualDisplay? = null
-    private var videoCodec: MediaCodec? = null
     private var wakeLock: PowerManager.WakeLock? = null
     private var mediaSession: MediaSession? = null
     private var receiverVolumeSteps: Int = MAX_VOLUME_STEPS
@@ -681,7 +672,6 @@ class AudioCastService : Service() {
                 return@launch
             }
 
-            val videoEnabled = sharedPreferences.getBoolean(SettingsActivity.KEY_VIDEO_ENABLED, false)
 
             if (destinations.any { it.platform == "DLNA" || it.platform == "Google Cast" || it.platform == "AirPlay" }) {
                 startDlnaHttpServer()
@@ -729,9 +719,6 @@ class AudioCastService : Service() {
                     "Snapcast" -> launch { startSnapcastSession(dest) }
                     else -> {
                         launch { startControlSession(dest) }
-                        if (videoEnabled && destinations.size == 1) { 
-                            launch { startVideoSession(dest) }
-                        }
                         launch { startAudioSession(dest) }
                         launch { startStatsSession(dest) }
                     }
@@ -1697,72 +1684,9 @@ class AudioCastService : Service() {
         }
     }
 
-    private suspend fun startVideoSession(dest: CastDestination) {
-        var reconnectAttempts = 0
-        while (currentCoroutineContext().isActive) {
-            try {
-                client.webSocket(host = dest.host, port = dest.port, path = "/video") videoSocket@{
-                    setupVideoCodec()
-                    val bufferInfo = MediaCodec.BufferInfo()
-                    while (isActive) {
-                        val outputBufferId = videoCodec?.dequeueOutputBuffer(bufferInfo, 10000L) ?: -1
-                        if (outputBufferId >= 0) {
-                            val outputBuffer = videoCodec?.getOutputBuffer(outputBufferId)
-                            if (outputBuffer != null) {
-                                val outData = ByteArray(bufferInfo.size)
-                                outputBuffer.get(outData)
-                                outgoing.trySendBlocking(Frame.Binary(true, outData))
-                            }
-                            videoCodec?.releaseOutputBuffer(outputBufferId, false)
-                        }
-                    }
-                    releaseVideoCodec()
-                }
-            } catch (e: Exception) {
-                if (e is CancellationException) throw e
-                releaseVideoCodec()
-                reconnectAttempts++
-                delay((RECONNECT_INITIAL_BACKOFF * 2.0.pow(reconnectAttempts.toDouble().coerceAtMost(5.0))).toLong())
-            }
-        }
-    }
 
-    @Suppress("DEPRECATION")
-    private fun setupVideoCodec() {
-        try {
-            val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-            val metrics = DisplayMetrics()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val windowMetrics = windowManager.currentWindowMetrics
-                metrics.densityDpi = windowMetrics.bounds.width()
-            } else {
-                windowManager.defaultDisplay.getRealMetrics(metrics)
-            }
-            
-            val format = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, VIDEO_WIDTH, VIDEO_HEIGHT)
-            format.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface)
-            format.setInteger(MediaFormat.KEY_BIT_RATE, VIDEO_BITRATE)
-            format.setInteger(MediaFormat.KEY_FRAME_RATE, VIDEO_FPS)
-            format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, VIDEO_IFRAME_INTERVAL)
 
-            videoCodec = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_VIDEO_AVC)
-            videoCodec?.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
-            val surface = videoCodec?.createInputSurface()
-            videoCodec?.start()
 
-            virtualDisplay = mediaProjection?.createVirtualDisplay(
-                "AriaCastVideo", VIDEO_WIDTH, VIDEO_HEIGHT, metrics.densityDpi,
-                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, surface, null, null
-            )
-        } catch (e: Exception) {}
-    }
-
-    private fun releaseVideoCodec() {
-        virtualDisplay?.release()
-        virtualDisplay = null
-        try { videoCodec?.stop(); videoCodec?.release() } catch (e: Exception) {}
-        videoCodec = null
-    }
 
     fun sendVolumeCommand(direction: String) {
         scope.launch {
@@ -2276,7 +2200,6 @@ class AudioCastService : Service() {
         } catch (e: Exception) {}
         mediaProjection = null
 
-        releaseVideoCodec()
         
         dlnaHttpServerJob?.cancel()
         dlnaHttpServerJob = null
@@ -2538,11 +2461,6 @@ class AudioCastService : Service() {
         private const val AP2_ALAC_FRAME_SIZE = 352  // ALAC frame size in samples for AirPlay 2
         private const val MAX_VOLUME_STEPS = 30
         
-        const val VIDEO_WIDTH = 1280
-        const val VIDEO_HEIGHT = 720
-        const val VIDEO_BITRATE = 3000000 
-        const val VIDEO_FPS = 30
-        const val VIDEO_IFRAME_INTERVAL = 2
 
         private const val RECONNECT_INITIAL_BACKOFF = 1000L
         private const val STATS_TIMEOUT = 10000L 

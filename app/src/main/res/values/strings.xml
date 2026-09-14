@@ -68,8 +68,6 @@
     <string name="language">Language</string>
     <string name="select_language">Select Language</string>
     <string name="language_default">System Default</string>
-    <string name="enable_video">Enable Video</string>
-    <string name="enable_video_desc">Cast screen video alongside audio</string>
     <string name="notification_access">Notification Access</string>
     <string name="notification_access_desc">Required for media metadata AND to start playback on some receivers</string>
     <string name="reset_last_server">Reset Last Server</string>
@@ -94,8 +92,6 @@
     <string name="cancel">Cancel</string>
 
     <!-- AudioCastService -->
-    <string name="audio_video">Audio &amp; Video</string>
-    <string name="audio_only">Audio Only</string>
     <string name="casting_to">Casting to %1$s (%2$s)</string>
     <string name="casting_to_multiple">Casting to %1$d devices</string>
     <string name="connecting_to">Connecting to %1$s</string>

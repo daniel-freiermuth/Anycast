@@ -48,8 +48,6 @@
     <string name="language">Lingua</string>
     <string name="select_language">Seleziona Lingua</string>
     <string name="language_default">Predefinita di Sistema</string>
-    <string name="enable_video">Abilita Video</string>
-    <string name="enable_video_desc">Trasmetti lo schermo assieme all\'audio</string>
     <string name="notification_access">Accesso Notifiche</string>
     <string name="notification_access_desc">Richiesto per i metadati multimediali</string>
     <string name="reset_last_server">Resetta l\'ultimo server</string>
@@ -68,8 +66,6 @@
     <string name="airplay_protocol_desc">Trasmetti ad altoparlanti AirPlay compatibili</string>
     <string name="cancel">Annulla</string>
 
-    <string name="audio_video">Audio &amp; Video</string>
-    <string name="audio_only">Solo Audio</string>
     <string name="casting_to">Trasmettendo a %1$s (%2$s)</string>
     <string name="casting_to_multiple">Trasmettendo a %1$d dispositivi</string>
     <string name="connecting_to">Connettendo a %1$s</string>

@@ -27,7 +27,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var accentStatusText: TextView
     private lateinit var languageStatusText: TextView
     private lateinit var accentColorPreview: ImageView
-    private lateinit var videoCastSwitch: MaterialSwitch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
@@ -45,7 +44,6 @@ class SettingsActivity : AppCompatActivity() {
         accentStatusText = findViewById(R.id.accentStatusText)
         languageStatusText = findViewById(R.id.languageStatusText)
         accentColorPreview = findViewById(R.id.accentColorPreview)
-        videoCastSwitch = findViewById(R.id.videoCastSwitch)
 
         findViewById<View>(R.id.themeLayout).setOnClickListener {
             showThemeSelectionDialog()
@@ -93,10 +91,6 @@ class SettingsActivity : AppCompatActivity() {
             true
         }
 
-        videoCastSwitch.isChecked = sharedPreferences.getBoolean(KEY_VIDEO_ENABLED, false)
-        videoCastSwitch.setOnCheckedChangeListener { _, isChecked ->
-            sharedPreferences.edit().putBoolean(KEY_VIDEO_ENABLED, isChecked).apply()
-        }
 
 
 
@@ -286,6 +280,5 @@ class SettingsActivity : AppCompatActivity() {
     companion object {
         const val KEY_THEME = "prefs_theme"
         const val KEY_ACCENT_COLOR = "prefs_accent_color"
-        const val KEY_VIDEO_ENABLED = "prefs_video_enabled"
     }
 }

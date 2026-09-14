@@ -50,8 +50,6 @@
     <string name="language">Taal</string>
     <string name="select_language">Selecteer taal</string>
     <string name="language_default">Systeemstandaard</string>
-    <string name="enable_video">Video inschakelen</string>
-    <string name="enable_video_desc">Cast schermvideo samen met audio</string>
     <string name="notification_access">Meldingstoegang</string>
     <string name="notification_access_desc">Vereist voor media-metadata</string>
     <string name="reset_last_server">Laatste server resetten</string>
@@ -71,8 +69,6 @@
     <string name="cancel">Annuleren</string>
 
     <!-- AudioCastService -->
-    <string name="audio_video">Audio &amp; Video</string>
-    <string name="audio_only">Alleen audio</string>
     <string name="casting_to">Casten naar %1$s (%2$s)</string>
     <string name="casting_to_multiple">Casten naar %1$d apparaten</string>
     <string name="connecting_to">Verbinden met %1$s</string>

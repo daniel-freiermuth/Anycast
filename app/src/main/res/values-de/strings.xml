@@ -50,8 +50,6 @@
     <string name="language">Sprache</string>
     <string name="select_language">Sprache wählen</string>
     <string name="language_default">Systemstandard</string>
-    <string name="enable_video">Video aktivieren</string>
-    <string name="enable_video_desc">Bildschirmvideo zusammen mit Audio übertragen</string>
     <string name="notification_access">Benachrichtigungszugriff</string>
     <string name="notification_access_desc">Erforderlich für Medienmetadaten</string>
     <string name="reset_last_server">Letzten Server zurücksetzen</string>
@@ -69,8 +67,6 @@
     <string name="airplay_protocol_desc">Streamen auf kompatible AirPlay-Lautsprecher</string>
     <string name="cancel">Abbrechen</string>
     <!-- AudioCastService -->
-    <string name="audio_video">Audio &amp; Video</string>
-    <string name="audio_only">Nur Audio</string>
     <string name="casting_to">Streaming auf %1$s (%2$s)</string>
     <string name="casting_to_multiple">Streaming auf %1$d Geräte</string>
     <string name="connecting_to">Verbinden mit %1$s</string>

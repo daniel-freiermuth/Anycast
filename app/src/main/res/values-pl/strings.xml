@@ -45,8 +45,6 @@
     <string name="language">Język</string>
     <string name="select_language">Wybierz język</string>
     <string name="language_default">Domyślny systemu</string>
-    <string name="enable_video">Włącz Video</string>
-    <string name="enable_video_desc">Przesyłaj obraz i dźwięk z ekranu</string>
     <string name="notification_access">Dostęp do powiadomień</string>
     <string name="notification_access_desc">Wymagane dla metadanych multimediów</string>
     <string name="reset_last_server">Zrestartuj ostatni serwer</string>
@@ -63,8 +61,6 @@
     <string name="airplay2_protocol">AirPlay 2</string>
     <string name="airplay2_protocol_desc">Przesyłaj strumieniowo na komputery Mac, urządzenia Apple TV i HomePod</string>
     <string name="cancel">Anuluj</string>
-    <string name="audio_video">Dźwięk &amp; Obraz</string>
-    <string name="audio_only">Tylko dźwięk</string>
     <string name="casting_to">Przesyłanie do %1$s (%2$s)</string>
     <string name="casting_to_multiple">Przesyłanie do %1$d urządzeń</string>
     <string name="connecting_to">Łączenie z %1$s</string>
