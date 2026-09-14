@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="update_available_title">Nouvelle mise à jour disponible</string>
-    <string name="update_available_message">La version %1$s est disponible. Souhaitez-vous la télécharger ?\n\n%2$s</string>
-    <string name="download">Télécharger</string>
-    <string name="later">Plus tard</string>
-    <string name="up_to_date_title">À jour</string>
-    <string name="up_to_date_message">Vous utilisez déjà la dernière version.</string>
     <string name="ok">OK</string>
-    <string name="update_failed_title">Échec de la vérification de la mise à jour</string>
-    <string name="update_failed_message">Impossible de se connecter à GitHub pour vérifier les mises à jour.</string>
     <!-- Main Activity -->
     <string name="media_projection_denied">Autorisation MediaProjection refusée.</string>
     <string name="record_audio_permission_required">L\'autorisation Microphone est requise pour capturer et diffuser l\'audio.</string>
@@ -71,9 +63,6 @@
     <string name="multiroom_desc">Permette de créer des groupes d\'enceintes</string>
     <string name="notification_access">Accès aux notifications</string>
     <string name="notification_access_desc">Requis pour les métadonnées multimédias ET pour démarrer la lecture sur certains récepteurs</string>
-    <string name="check_for_updates">Vérifier les mises à jour</string>
-    <string name="github_repo">Dépôt GitHub</string>
-    <string name="github_repo_desc">Voir le code source et signaler des problèmes</string>
     <string name="reset_last_server">Réinitialiser le dernier serveur</string>
     <string name="reset_last_server_desc">Effacer les détails de connexion du dernier serveur enregistré</string>
 

@@ -81,7 +81,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var serverListAdapter: ServerAdapter
     private lateinit var groupListAdapter: GroupAdapter
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var updateManager: UpdateManager
 
     private var currentAccentColor: Int = R.color.accent_blue
     private var currentThemeMode: Int = ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM
@@ -407,7 +406,6 @@ class MainActivity : AppCompatActivity() {
 
         mediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         discoveryManager = (application as AriaCastApp).discoveryManager
-        updateManager = UpdateManager(this)
 
         stateTextView = findViewById(R.id.stateTextView)
         castButton = findViewById(R.id.castButton)
@@ -561,9 +559,6 @@ class MainActivity : AppCompatActivity() {
         }
         
         checkNotificationListenerPermission()
-        lifecycleScope.launch {
-            updateManager.checkForUpdates(manual = false)
-        }
 
         handleDeepLink(intent)
     }

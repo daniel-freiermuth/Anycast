@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="update_available_title">Nieuwe update beschikbaar</string>
-    <string name="update_available_message">Versie %1$s is beschikbaar. Wilt u deze downloaden?\n\n%2$s</string>
-    <string name="download">Downloaden</string>
-    <string name="later">Later</string>
-    <string name="up_to_date_title">Up-to-date</string>
-    <string name="up_to_date_message">U gebruikt al de nieuwste versie.</string>
     <string name="ok">OK</string>
-    <string name="update_failed_title">Updatecontrole mislukt</string>
-    <string name="update_failed_message">Kon geen verbinding maken met GitHub om op updates te controleren.</string>
     <!-- Main Activity -->
     <string name="media_projection_denied">MediaProjection-toestemming geweigerd.</string>
     <string name="select_server_first">Selecteer eerst een server.</string>
@@ -67,9 +59,6 @@
     <string name="multiroom_desc">Maakt het mogelijk om speakergroepen aan te maken</string>
     <string name="notification_access">Meldingstoegang</string>
     <string name="notification_access_desc">Vereist voor media-metadata</string>
-    <string name="check_for_updates">Controleren op updates</string>
-    <string name="github_repo">GitHub-repository</string>
-    <string name="github_repo_desc">Bekijk broncode en meld problemen</string>
     <string name="reset_last_server">Laatste server resetten</string>
     <string name="reset_last_server_desc">Wis opgeslagen serververbindingsdetails</string>
 

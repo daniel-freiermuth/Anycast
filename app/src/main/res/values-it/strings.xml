@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="update_available_title">Nuovo Aggiornamento Disponibile</string>
-    <string name="update_available_message">La Versione %1$s è disponibile. Vuoi Scaricarla?\n\n%2$s</string>
-    <string name="download">Scarica</string>
-    <string name="later">Forse Dopo</string>
-    <string name="up_to_date_title">Aggiornata</string>
-    <string name="up_to_date_message">Stai già usando l\'ultima versione.</string>
     <string name="ok">OK</string>
-    <string name="update_failed_title">Controllo Aggiornamenti Fallito</string>
-    <string name="update_failed_message">Non è stato possibile connettersi a GitHub per controllare gli aggiornamenti.</string>
     <string name="media_projection_denied">Permesso MediaProjection Negato</string>
     <string name="select_server_first">Scegli prima un server.</string>
     <string name="scanning">Scansionando...</string>
@@ -65,9 +57,6 @@
     <string name="multiroom_desc">Permette di creare gruppi di altoparlanti</string>
     <string name="notification_access">Accesso Notifiche</string>
     <string name="notification_access_desc">Richiesto per i metadati multimediali</string>
-    <string name="check_for_updates">Controlla Aggiornamenti</string>
-    <string name="github_repo">Repo GitHub</string>
-    <string name="github_repo_desc">Vedi il codice sorgente e riporta problemi</string>
     <string name="reset_last_server">Resetta l\'ultimo server</string>
     <string name="reset_last_server_desc">Pulisci i dettagli del server salvato</string>
 

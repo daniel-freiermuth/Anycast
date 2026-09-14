@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="update_available_title">新しいアップデートがあります</string>
-    <string name="update_available_message">バージョン %1$s が利用可能です。ダウンロードしますか？\n\n%2$s</string>
-    <string name="download">ダウンロード</string>
-    <string name="later">後で</string>
-    <string name="up_to_date_title">最新の状態です</string>
-    <string name="up_to_date_message">すでに最新バージョンを使用しています。</string>
     <string name="ok">OK</string>
-    <string name="update_failed_title">アップデートの確認に失敗しました</string>
-    <string name="update_failed_message">GitHub に接続してアップデートを確認できませんでした。</string>
     <!-- Main Activity -->
     <string name="media_projection_denied">MediaProjection の権限が拒否されました。</string>
     <string name="select_server_first">最初にサーバーを選択してください。</string>
@@ -67,9 +59,6 @@
     <string name="multiroom_desc">スピーカーグループの作成を可能にします</string>
     <string name="notification_access">通知へのアクセス</string>
     <string name="notification_access_desc">メディアメタデータに必要です</string>
-    <string name="check_for_updates">アップデートを確認</string>
-    <string name="github_repo">GitHub リポジトリ</string>
-    <string name="github_repo_desc">ソースコードの表示と問題の報告</string>
     <string name="reset_last_server">最後のサーバーをリセット</string>
     <string name="reset_last_server_desc">保存されたサーバー接続の詳細を消去</string>
 

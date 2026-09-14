@@ -5,15 +5,7 @@
     <string name="ver" translatable="false">AriaCast 1.1.7</string>
 
     <!-- Update Manager -->
-    <string name="update_available_title">New Update Available</string>
-    <string name="update_available_message">Version %1$s is available. Would you like to download it?\n\n%2$s</string>
-    <string name="download">Download</string>
-    <string name="later">Later</string>
-    <string name="up_to_date_title">Up to Date</string>
-    <string name="up_to_date_message">You are already using the latest version.</string>
     <string name="ok">OK</string>
-    <string name="update_failed_title">Update Check Failed</string>
-    <string name="update_failed_message">Could not connect to GitHub to check for updates.</string>
 
     <!-- Main Activity -->
     <string name="media_projection_denied">MediaProjection permission denied.</string>
@@ -85,9 +77,6 @@
     <string name="multiroom_desc">Allows creating speaker groups</string>
     <string name="notification_access">Notification Access</string>
     <string name="notification_access_desc">Required for media metadata AND to start playback on some receivers</string>
-    <string name="check_for_updates">Check for Updates</string>
-    <string name="github_repo">GitHub Repository</string>
-    <string name="github_repo_desc">View source code and report issues</string>
     <string name="reset_last_server">Reset Last Server</string>
     <string name="reset_last_server_desc">Clear saved server connection details</string>
 

@@ -29,7 +29,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var accentColorPreview: ImageView
     private lateinit var videoCastSwitch: MaterialSwitch
     private lateinit var multiroomSwitch: MaterialSwitch
-    private lateinit var updateManager: UpdateManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
@@ -49,7 +48,6 @@ class SettingsActivity : AppCompatActivity() {
         accentColorPreview = findViewById(R.id.accentColorPreview)
         videoCastSwitch = findViewById(R.id.videoCastSwitch)
         multiroomSwitch = findViewById(R.id.multiroomSwitch)
-        updateManager = UpdateManager(this)
 
         findViewById<View>(R.id.themeLayout).setOnClickListener {
             showThemeSelectionDialog()
@@ -83,15 +81,6 @@ class SettingsActivity : AppCompatActivity() {
             showNotificationAccessExplanationDialog()
         }
 
-        findViewById<View>(R.id.updateLayout).setOnClickListener {
-            lifecycleScope.launch {
-                updateManager.checkForUpdates(manual = true)
-            }
-        }
-
-        findViewById<View>(R.id.githubLayout).setOnClickListener {
-            openGitHub()
-        }
 
         findViewById<View>(R.id.packetLogLayout).setOnClickListener {
             startActivity(Intent(this, PacketLogActivity::class.java))
@@ -116,18 +105,12 @@ class SettingsActivity : AppCompatActivity() {
             sharedPreferences.edit().putBoolean(KEY_MULTIROOM_ENABLED, isChecked).apply()
         }
 
-        val versionText = findViewById<TextView>(R.id.versionText)
-        versionText.text = getString(R.string.version_format, getString(R.string.app_version))
 
         updateThemeStatusText()
         updateAccentStatus()
         updateLanguageStatusText()
     }
 
-    private fun openGitHub() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL))
-        startActivity(intent)
-    }
 
     private fun showThemeSelectionDialog() {
         val themes = arrayOf(
@@ -311,6 +294,5 @@ class SettingsActivity : AppCompatActivity() {
         const val KEY_ACCENT_COLOR = "prefs_accent_color"
         const val KEY_VIDEO_ENABLED = "prefs_video_enabled"
         const val KEY_MULTIROOM_ENABLED = "prefs_multiroom_enabled"
-        const val GITHUB_URL = "https://github.com/AriaCast/AriaCast-app"
     }
 }

@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="update_available_title">Nueva actualización disponible</string>
-    <string name="update_available_message">La versión %1$s está disponible. ¿Desea descargarla?\n\n%2$s</string>
-    <string name="download">Descargar</string>
-    <string name="later">Más tarde</string>
-    <string name="up_to_date_title">Actualizado</string>
-    <string name="up_to_date_message">Ya estás usando la última versión.</string>
     <string name="ok">Aceptar</string>
-    <string name="update_failed_title">Error al buscar actualizaciones</string>
-    <string name="update_failed_message">No se pudo conectar con GitHub para buscar actualizaciones.</string>
     <!-- Main Activity -->
     <string name="media_projection_denied">Permiso de MediaProjection denegado.</string>
     <string name="select_server_first">Por favor, seleccione un servidor primero.</string>
@@ -67,9 +59,6 @@
     <string name="multiroom_desc">Permite crear grupos de altavoces</string>
     <string name="notification_access">Acceso a notificaciones</string>
     <string name="notification_access_desc">Requerido para metadatos multimedia</string>
-    <string name="check_for_updates">Buscar actualizaciones</string>
-    <string name="github_repo">Repositorio de GitHub</string>
-    <string name="github_repo_desc">Ver código fuente e informar problemas</string>
     <string name="reset_last_server">Restablecer último servidor</string>
     <string name="reset_last_server_desc">Borrar detalles guardados de la conexión al servidor</string>
     <!-- Protocols Activity -->

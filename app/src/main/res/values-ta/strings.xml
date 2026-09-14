@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="update_available_title">புதிய புதுப்பிப்பு கிடைக்கிறது</string>
-    <string name="update_available_message">பதிப்பு %1$s கிடைக்கிறது. நீங்கள் அதைப் பதிவிறக்க விரும்புகிறீர்களா? \n\n%2$s</string>
-    <string name="download">பதிவிறக்கம்</string>
-    <string name="later">பின்னர்</string>
-    <string name="up_to_date_title">தேதி வரை</string>
-    <string name="up_to_date_message">நீங்கள் ஏற்கனவே அண்மைக் கால பதிப்பைப் பயன்படுத்துகிறீர்கள்.</string>
     <string name="ok">சரி</string>
-    <string name="update_failed_title">புதுப்பிப்பு சரிபார்ப்பு தோல்வியடைந்தது</string>
-    <string name="update_failed_message">புதுப்பிப்புகளைச் சரிபார்க்க GitHub உடன் இணைக்க முடியவில்லை.</string>
     <string name="media_projection_denied">MediaProjection இசைவு மறுக்கப்பட்டது.</string>
     <string name="select_server_first">முதலில் சர்வரைத் தேர்ந்தெடுக்கவும்.</string>
     <string name="scanning">வருடு செய்கிறது…</string>
@@ -65,9 +57,6 @@
     <string name="multiroom_desc">பேச்சாளர் குழுக்களை உருவாக்க அனுமதிக்கிறது</string>
     <string name="notification_access">அறிவிப்பு அணுகல்</string>
     <string name="notification_access_desc">மீடியா மெட்டாடேட்டாவுக்குத் தேவை</string>
-    <string name="check_for_updates">புதுப்பிப்புகளை சரிபார்க்கவும்</string>
-    <string name="github_repo">அறிவிலிவேள்வி களஞ்சியம்</string>
-    <string name="github_repo_desc">மூலக் குறியீட்டைப் பார்த்து, சிக்கல்களைப் புகாரளிக்கவும்</string>
     <string name="reset_last_server">கடைசி சேவையகத்தை மீட்டமைக்கவும்</string>
     <string name="reset_last_server_desc">சேமித்த சர்வர் இணைப்பு விவரங்களை அழிக்கவும்</string>
     <string name="cancel">ரத்துசெய்</string>
