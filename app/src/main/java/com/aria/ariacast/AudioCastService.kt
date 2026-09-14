@@ -348,6 +348,14 @@ class AudioCastService : Service() {
                 stopCasting()
                 return START_NOT_STICKY
             }
+            ACTION_VOLUME_UP -> {
+                adjustNotificationVolume(1)
+                return START_STICKY
+            }
+            ACTION_VOLUME_DOWN -> {
+                adjustNotificationVolume(-1)
+                return START_STICKY
+            }
         }
         return START_NOT_STICKY
     }
@@ -2458,25 +2466,37 @@ class AudioCastService : Service() {
         }
         remoteViews.setTextViewText(R.id.notification_text, statusText)
 
+        // Stop button
         val stopIntent = Intent(this, AudioCastService::class.java).apply { action = ACTION_STOP }
         val stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
         remoteViews.setOnClickPendingIntent(R.id.notification_stop_button, stopPendingIntent)
 
-        val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+        // Volume controls
+        val volUpIntent = Intent(this, AudioCastService::class.java).apply { action = ACTION_VOLUME_UP }
+        val volUpPending = PendingIntent.getService(this, 1, volUpIntent, PendingIntent.FLAG_IMMUTABLE)
+        remoteViews.setOnClickPendingIntent(R.id.notification_vol_up, volUpPending)
+
+        val volDownIntent = Intent(this, AudioCastService::class.java).apply { action = ACTION_VOLUME_DOWN }
+        val volDownPending = PendingIntent.getService(this, 2, volDownIntent, PendingIntent.FLAG_IMMUTABLE)
+        remoteViews.setOnClickPendingIntent(R.id.notification_vol_down, volDownPending)
+
+        remoteViews.setProgressBar(R.id.notification_volume_bar, MAX_VOLUME_STEPS, receiverVolumeSteps, false)
+
+        return NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_tile_icon)
             .setCustomContentView(remoteViews)
+            .setCustomBigContentView(remoteViews)
+            .setOngoing(true)
+            .setSilent(true)
+            .build()
+    }
 
-        // Link the notification to our MediaSession so Android treats it as THE
-        // active media notification — this gives our remote VolumeProvider priority
-        // for hardware volume keys, even when another app is playing.
-        mediaSession?.sessionToken?.let { token ->
-            builder.setStyle(
-                androidx.media.app.NotificationCompat.MediaStyle()
-                    .setMediaSession(android.support.v4.media.session.MediaSessionCompat.Token.fromToken(token))
-            )
-        }
-
-        return builder.build()
+    private fun adjustNotificationVolume(direction: Int) {
+        val newVol = (receiverVolumeSteps + direction).coerceIn(0, MAX_VOLUME_STEPS)
+        receiverVolumeSteps = newVol
+        val dB = (newVol - MAX_VOLUME_STEPS).toDouble()
+        sendVolumeDb(dB)
+        updateNotification()
     }
 
     override fun onDestroy() {
@@ -2491,6 +2511,8 @@ class AudioCastService : Service() {
         const val ACTION_START = "com.aria.ariacast.ACTION_START"
         const val ACTION_START_COMPANION = "com.aria.ariacast.ACTION_START_COMPANION"
         const val ACTION_STOP = "com.aria.ariacast.ACTION_STOP"
+        const val ACTION_VOLUME_UP = "com.aria.ariacast.ACTION_VOLUME_UP"
+        const val ACTION_VOLUME_DOWN = "com.aria.ariacast.ACTION_VOLUME_DOWN"
         const val EXTRA_MEDIA_PROJECTION_TOKEN = "com.aria.ariacast.EXTRA_MEDIA_PROJECTION_TOKEN"
         const val EXTRA_SERVER_HOST = "com.aria.ariacast.EXTRA_SERVER_HOST"
         const val EXTRA_SERVER_PORT = "com.aria.ariacast.EXTRA_SERVER_PORT"

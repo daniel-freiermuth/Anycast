@@ -2,42 +2,95 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical">
+    android:orientation="vertical"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
 
-    <ImageView
-        android:id="@+id/notification_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_tile_icon" />
-
+    <!-- Row 1: icon, title/status, stop button -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginStart="8dp">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/notification_title"
+        <ImageView
+            android:id="@+id/notification_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_tile_icon"
+            android:tint="?android:attr/textColorPrimary" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:id="@+id/notification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AriaCast"
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Title" />
+
+            <TextView
+                android:id="@+id/notification_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Casting to..."
+                android:textAppearance="@style/TextAppearance.Compat.Notification.Line2" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/notification_stop_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AriaCast"
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Title" />
-
-        <TextView
-            android:id="@+id/notification_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Casting to..."
-            android:textAppearance="@style/TextAppearance.Compat.Notification.Line2" />
+            android:text="Stop" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/notification_stop_button"
-        android:layout_width="wrap_content"
+    <!-- Row 2: volume controls -->
+    <LinearLayout
+        android:id="@+id/notification_volume_row"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stop" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="4dp">
+
+        <ImageButton
+            android:id="@+id/notification_vol_down"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_volume_down"
+            android:contentDescription="Volume down"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside" />
+
+        <ProgressBar
+            android:id="@+id/notification_volume_bar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:max="30"
+            android:progress="30" />
+
+        <ImageButton
+            android:id="@+id/notification_vol_up"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_volume_up"
+            android:contentDescription="Volume up"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside" />
+
+    </LinearLayout>
 
 </LinearLayout>
