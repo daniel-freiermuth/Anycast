@@ -22,12 +22,9 @@
     <string name="port">துறைமுகம்</string>
     <string name="add">கூட்டு</string>
     <string name="synchronization">ஒத்தியக்கம்</string>
-    <string name="speaker_groups">பேச்சாளர் குழுக்கள்</string>
     <string name="create">உருவாக்கு</string>
-    <string name="offline_devices_error">இந்தக் குழுவில் உள்ள சில சாதனங்கள் ஆஃப்லைனில் உள்ளன</string>
     <string name="no_servers_found">சேவையகங்கள் எதுவும் கண்டறியப்படவில்லை</string>
     <string name="grant_notification_permission">அறிவிப்பு இசைவு வழங்கவும்</string>
-    <string name="devices_count_format">%1$d சாதனங்கள்</string>
     <string name="settings">அமைப்புகள்</string>
     <string name="general">பொது</string>
     <string name="casting">நடிப்பு</string>
@@ -53,8 +50,6 @@
     <string name="language_default">கணினி இயல்புநிலை</string>
     <string name="enable_video">வீடியோவை இயக்கு</string>
     <string name="enable_video_desc">ஆடியோவுடன் திரை வீடியோவை அனுப்பவும்</string>
-    <string name="multiroom">மல்டிரூம் உதவி</string>
-    <string name="multiroom_desc">பேச்சாளர் குழுக்களை உருவாக்க அனுமதிக்கிறது</string>
     <string name="notification_access">அறிவிப்பு அணுகல்</string>
     <string name="notification_access_desc">மீடியா மெட்டாடேட்டாவுக்குத் தேவை</string>
     <string name="reset_last_server">கடைசி சேவையகத்தை மீட்டமைக்கவும்</string>
@@ -67,7 +62,6 @@
     <string name="connecting_to">%1$s உடன் இணைக்கிறது</string>
     <string name="not_casting">நடிக்கவில்லை</string>
     <string name="unknown">தெரியவில்லை</string>
-    <string name="multiroom_group">மல்டிரூம் குழு</string>
     <string name="connecting">இணைக்கிறது…</string>
     <string name="tile_tap_to_cast">அனுப்ப தட்டவும்</string>
     <string name="tile_discovering">கண்டுபிடிக்கிறது…</string>
@@ -78,8 +72,5 @@
     <string name="packet_logs_desc">பிழைத்திருத்தத்திற்கான விரிவான பிணைய பாக்கெட் பதிவுகளைப் பார்க்கவும்</string>
     <string name="search_logs">பதிவுகளைத் தேடு…</string>
     <string name="clear_logs">பதிவுகளை அழிக்கவும்</string>
-    <string name="create_speaker_group">பேச்சாளர் குழுவை உருவாக்கவும்</string>
-    <string name="group_name">குழுவின் பெயர்</string>
-    <string name="select_devices">சாதனங்களைத் தேர்ந்தெடுக்கவும்</string>
     <string name="save">சேமி</string>
 </resources>

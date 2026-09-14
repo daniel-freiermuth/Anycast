@@ -27,12 +27,9 @@
     <string name="port">Port</string>
     <string name="add">Ajouter</string>
     <string name="synchronization">Synchronisation</string>
-    <string name="speaker_groups">Groupes d\'enceintes</string>
     <string name="create">Créer</string>
-    <string name="offline_devices_error">Certains appareils de ce groupe sont hors ligne</string>
     <string name="no_servers_found">Aucun serveur découvert</string>
     <string name="grant_notification_permission">Accorder l\'autorisation de notification</string>
-    <string name="devices_count_format">%1$d appareils</string>
     <!-- Settings Activity -->
     <string name="settings">Paramètres</string>
     <string name="general">Général</string>
@@ -59,8 +56,6 @@
     <string name="language_default">Par défaut du système</string>
     <string name="enable_video">Activer la vidéo</string>
     <string name="enable_video_desc">Diffuser la vidéo de l\'écran avec l\'audio</string>
-    <string name="multiroom">Support Multiroom</string>
-    <string name="multiroom_desc">Permette de créer des groupes d\'enceintes</string>
     <string name="notification_access">Accès aux notifications</string>
     <string name="notification_access_desc">Requis pour les métadonnées multimédias ET pour démarrer la lecture sur certains récepteurs</string>
     <string name="reset_last_server">Réinitialiser le dernier serveur</string>
@@ -89,7 +84,6 @@
     <string name="connecting_to">Connexion à %1$s</string>
     <string name="not_casting">Pas de diffusion</string>
     <string name="unknown">Inconnu</string>
-    <string name="multiroom_group">Groupe Multiroom</string>
     <string name="connecting">Connexion en cours…</string>
     <!-- Tile Service -->
     <string name="tile_tap_to_cast">Appuyer pour diffuser</string>
@@ -103,9 +97,6 @@
     <string name="search_logs">Rechercher dans les journaux…</string>
     <string name="clear_logs">Effacer les journaux</string>
     <!-- Create Group Dialog -->
-    <string name="create_speaker_group">Créer un groupe d\'enceintes</string>
-    <string name="group_name">Nom du groupe</string>
-    <string name="select_devices">Sélectionner des appareils</string>
     <string name="save">Enregistrer</string>
     <!-- AriaCompanion -->
     <string name="companion">AriaCompanion</string>

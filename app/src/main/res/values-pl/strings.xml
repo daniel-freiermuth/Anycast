@@ -20,12 +20,9 @@
     <string name="port">Port</string>
     <string name="add">Dodaj</string>
     <string name="synchronization">Synchronizacja</string>
-    <string name="speaker_groups">Grupy głośników</string>
     <string name="create">Utwórz</string>
-    <string name="offline_devices_error">Niektóre urządzenia w tej grupie są offline</string>
     <string name="no_servers_found">Nie odnaleziono serwerów</string>
     <string name="grant_notification_permission">Przyznaj uprawnienia do powiadomień</string>
-    <string name="devices_count_format">%1$d urządzeń</string>
     <string name="settings">Ustawienia</string>
     <string name="general">Główne</string>
     <string name="about">O</string>
@@ -50,8 +47,6 @@
     <string name="language_default">Domyślny systemu</string>
     <string name="enable_video">Włącz Video</string>
     <string name="enable_video_desc">Przesyłaj obraz i dźwięk z ekranu</string>
-    <string name="multiroom">Obsługa systemu multiroom</string>
-    <string name="multiroom_desc">Umożliwia tworzenie grup głośników</string>
     <string name="notification_access">Dostęp do powiadomień</string>
     <string name="notification_access_desc">Wymagane dla metadanych multimediów</string>
     <string name="reset_last_server">Zrestartuj ostatni serwer</string>
@@ -75,7 +70,6 @@
     <string name="connecting_to">Łączenie z %1$s</string>
     <string name="not_casting">Brak przesyłania</string>
     <string name="unknown">Nieznane</string>
-    <string name="multiroom_group">Grupa Multiroom</string>
     <string name="connecting">Łączenie…</string>
     <string name="tile_tap_to_cast">Dotknij aby przesyłać</string>
     <string name="tile_discovering">Odkrywanie…</string>
@@ -86,9 +80,6 @@
     <string name="packet_logs_desc">Wyświetl szczegółowe dzienniki pakietów sieciowych do debugowania</string>
     <string name="search_logs">Przeszukaj dzienniki…</string>
     <string name="clear_logs">Wyczyść dzienniki</string>
-    <string name="create_speaker_group">Utwórz grupę głośników</string>
-    <string name="group_name">Nazwa grupy</string>
-    <string name="select_devices">Wybierz urządzenia</string>
     <string name="save">Zapisz</string>
     <string name="companion">AriaCompanion</string>
     <string name="companion_desc">Przesyłaj strumieniowo za pośrednictwem mostka Bluetooth ESP32</string>

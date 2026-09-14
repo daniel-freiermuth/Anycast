@@ -28,7 +28,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var languageStatusText: TextView
     private lateinit var accentColorPreview: ImageView
     private lateinit var videoCastSwitch: MaterialSwitch
-    private lateinit var multiroomSwitch: MaterialSwitch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
@@ -47,7 +46,6 @@ class SettingsActivity : AppCompatActivity() {
         languageStatusText = findViewById(R.id.languageStatusText)
         accentColorPreview = findViewById(R.id.accentColorPreview)
         videoCastSwitch = findViewById(R.id.videoCastSwitch)
-        multiroomSwitch = findViewById(R.id.multiroomSwitch)
 
         findViewById<View>(R.id.themeLayout).setOnClickListener {
             showThemeSelectionDialog()
@@ -100,10 +98,6 @@ class SettingsActivity : AppCompatActivity() {
             sharedPreferences.edit().putBoolean(KEY_VIDEO_ENABLED, isChecked).apply()
         }
 
-        multiroomSwitch.isChecked = sharedPreferences.getBoolean(KEY_MULTIROOM_ENABLED, false)
-        multiroomSwitch.setOnCheckedChangeListener { _, isChecked ->
-            sharedPreferences.edit().putBoolean(KEY_MULTIROOM_ENABLED, isChecked).apply()
-        }
 
 
         updateThemeStatusText()
@@ -293,6 +287,5 @@ class SettingsActivity : AppCompatActivity() {
         const val KEY_THEME = "prefs_theme"
         const val KEY_ACCENT_COLOR = "prefs_accent_color"
         const val KEY_VIDEO_ENABLED = "prefs_video_enabled"
-        const val KEY_MULTIROOM_ENABLED = "prefs_multiroom_enabled"
     }
 }

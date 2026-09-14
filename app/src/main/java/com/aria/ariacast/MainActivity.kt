@@ -24,9 +24,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -71,15 +69,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var serverRecyclerView: RecyclerView
     private lateinit var permissionButton: MaterialButton
     private lateinit var statusCard: MaterialCardView
-    private lateinit var groupsSection: LinearLayout
-    private lateinit var groupRecyclerView: RecyclerView
-    private lateinit var addGroupButton: MaterialButton
     private lateinit var syncSection: LinearLayout
     private lateinit var syncSliderContainer: LinearLayout
 
     lateinit var discoveryManager: DiscoveryManager
     private lateinit var serverListAdapter: ServerAdapter
-    private lateinit var groupListAdapter: GroupAdapter
     private lateinit var sharedPreferences: SharedPreferences
 
     private var currentAccentColor: Int = R.color.accent_blue
@@ -226,8 +220,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun launchCompanionCast() {
         // AriaCompanion's ESP32 board only speaks AriaCast's native protocol
-        // directly to a receiver, so only those destinations are usable here
-        // even if a multiroom group snuck in an AirPlay/DLNA/Google Cast host.
+        // directly to a receiver, so only those destinations are usable here.
         val ariaCastServers = selectedServers.filter { it.platform == "AriaCast" }
         val target = ariaCastServers.firstOrNull()
         if (target == null) {
@@ -413,9 +406,6 @@ class MainActivity : AppCompatActivity() {
         serverRecyclerView = findViewById(R.id.serverRecyclerView)
         permissionButton = findViewById(R.id.permissionButton)
         statusCard = findViewById(R.id.statusCard)
-        groupsSection = findViewById(R.id.groupsSection)
-        groupRecyclerView = findViewById(R.id.groupRecyclerView)
-        addGroupButton = findViewById(R.id.addGroupButton)
         syncSection = findViewById(R.id.syncSection)
         syncSliderContainer = findViewById(R.id.syncSliderContainer)
 
@@ -436,24 +426,6 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
 
-        groupListAdapter = GroupAdapter(
-            onGroupClick = { group ->
-                val servers = discoveryManager.servers.value.filter { group.hosts.contains(it.host) }
-                if (servers.size == group.hosts.size) {
-                    castToServers(servers)
-                } else {
-                    Toast.makeText(this, getString(R.string.offline_devices_error), Toast.LENGTH_SHORT).show()
-                }
-            },
-            onDeleteClick = { group ->
-                deleteGroup(group)
-            }
-        )
-
-        groupRecyclerView.apply {
-            adapter = groupListAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity)
-        }
 
         castButton.setOnClickListener {
             it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
@@ -478,10 +450,6 @@ class MainActivity : AppCompatActivity() {
             serverRecyclerView.scheduleLayoutAnimation()
         }
         
-        addGroupButton.setOnClickListener {
-            it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-            showCreateGroupDialog()
-        }
 
         permissionButton.setOnClickListener {
             showNotificationAccessExplanationDialog()
@@ -503,17 +471,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 serverListAdapter.submitList(displayedServers)
 
-                val isMultiroomEnabled = sharedPreferences.getBoolean(SettingsActivity.KEY_MULTIROOM_ENABLED, false)
-                if (isMultiroomEnabled) {
-                    val groups = getSavedGroups()
-                    val activeGroups = groups.filter { group ->
-                        group.hosts.all { host -> servers.any { it.host == host } }
-                    }
-                    groupsSection.visibility = View.VISIBLE
-                    groupListAdapter.submitList(activeGroups)
-                } else {
-                    groupsSection.visibility = View.GONE
-                }
 
                 val lastHost = sharedPreferences.getString(AudioCastService.KEY_LAST_SERVER_HOST, null)
                 
@@ -571,9 +528,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateSyncUi() {
         val s = audioCastService
-        val isMultiroomEnabled = sharedPreferences.getBoolean(SettingsActivity.KEY_MULTIROOM_ENABLED, false)
-        
-        if (isMultiroomEnabled && s != null && s.state.value == CastState.CASTING) {
+        if (s != null && s.state.value == CastState.CASTING) {
             val destinations = s.activeDestinations.value
             if (destinations.size > 1) {
                 syncSection.visibility = View.VISIBLE
@@ -643,65 +598,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getSavedGroups(): List<CastGroup> {
-        val json = sharedPreferences.getString("saved_groups", "[]") ?: "[]"
-        val array = JSONArray(json)
-        val groups = mutableListOf<CastGroup>()
-        for (i in 0 until array.length()) {
-            groups.add(CastGroup.fromJson(array.getString(i)))
-        }
-        return groups
-    }
-
-    private fun saveGroups(groups: List<CastGroup>) {
-        val array = JSONArray()
-        groups.forEach { array.put(it.toJson()) }
-        sharedPreferences.edit().putString("saved_groups", array.toString()).apply()
-        _refreshTrigger.value++
-    }
-
-    private fun deleteGroup(group: CastGroup) {
-        val groups = getSavedGroups().toMutableList()
-        groups.removeAll { it.name == group.name }
-        saveGroups(groups)
-    }
-
-    private fun showCreateGroupDialog() {
-        val servers = discoveryManager.servers.value
-        if (servers.isEmpty()) {
-            Toast.makeText(this, getString(R.string.no_servers_found), Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_create_group, null)
-        val nameInput = dialogView.findViewById<EditText>(R.id.groupNameInput)
-        val serverListLayout = dialogView.findViewById<LinearLayout>(R.id.serverSelectionList)
-        val selectedHosts = mutableSetOf<String>()
-
-        servers.forEach { server ->
-            val checkBox = CheckBox(this).apply {
-                text = server.name
-                setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) selectedHosts.add(server.host) else selectedHosts.remove(server.host)
-                }
-            }
-            serverListLayout.addView(checkBox)
-        }
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.create_speaker_group)
-            .setView(dialogView)
-            .setPositiveButton(R.string.save) { _, _ ->
-                val name = nameInput.text.toString()
-                if (name.isNotEmpty() && selectedHosts.isNotEmpty()) {
-                    val groups = getSavedGroups().toMutableList()
-                    groups.add(CastGroup(name, selectedHosts.toList()))
-                    saveGroups(groups)
-                }
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -752,8 +648,6 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val isMultiroomEnabled = sharedPreferences.getBoolean(SettingsActivity.KEY_MULTIROOM_ENABLED, false)
-        groupsSection.visibility = if (isMultiroomEnabled) View.VISIBLE else View.GONE
         _refreshTrigger.value++
         updateSyncUi()
     }
@@ -846,46 +740,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class GroupAdapter(
-    private val onGroupClick: (CastGroup) -> Unit,
-    private val onDeleteClick: (CastGroup) -> Unit
-) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
-
-    private var groups = emptyList<CastGroup>()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_group, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val group = groups[position]
-        holder.groupName.text = group.name
-        holder.groupMembers.text = holder.itemView.context.getString(R.string.devices_count_format, group.hosts.size)
-        
-        holder.itemView.setOnClickListener { 
-            it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-            onGroupClick(group) 
-        }
-        holder.deleteButton.setOnClickListener { 
-            it.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-            onDeleteClick(group) 
-        }
-    }
-
-    override fun getItemCount() = groups.size
-
-    fun submitList(newGroups: List<CastGroup>) {
-        groups = newGroups
-        notifyDataSetChanged()
-    }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val groupName: TextView = view.findViewById(R.id.groupName)
-        val groupMembers: TextView = view.findViewById(R.id.groupMembers)
-        val deleteButton: ImageButton = view.findViewById(R.id.deleteGroupButton)
-    }
-}
 
 class ServerAdapter(
     private val onServerClick: (Server) -> Unit,

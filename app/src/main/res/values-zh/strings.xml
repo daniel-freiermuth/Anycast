@@ -23,12 +23,9 @@
     <string name="port">端口</string>
     <string name="add">添加</string>
     <string name="synchronization">同步</string>
-    <string name="speaker_groups">扬声器组</string>
     <string name="create">创建</string>
-    <string name="offline_devices_error">此组中的某些设备已离线</string>
     <string name="no_servers_found">未发现服务器</string>
     <string name="grant_notification_permission">授予通知权限</string>
-    <string name="devices_count_format">%1$d 个设备</string>
     <!-- Settings Activity -->
     <string name="settings">设置</string>
     <string name="general">常规</string>
@@ -55,8 +52,6 @@
     <string name="language_default">系统默认</string>
     <string name="enable_video">启用视频</string>
     <string name="enable_video_desc">在音频之外同时投放屏幕视频</string>
-    <string name="multiroom">多房间支持</string>
-    <string name="multiroom_desc">允许创建扬声器组</string>
     <string name="notification_access">通知访问权限</string>
     <string name="notification_access_desc">媒体元数据所需</string>
     <string name="reset_last_server">重置上次服务器</string>
@@ -83,7 +78,6 @@
     <string name="connecting_to">正在连接到 %1$s</string>
     <string name="not_casting">未在投放</string>
     <string name="unknown">未知</string>
-    <string name="multiroom_group">多房间组</string>
     <string name="connecting">正在连接…</string>
     <!-- Tile Service -->
     <string name="tile_tap_to_cast">点击以投放</string>
@@ -97,8 +91,5 @@
     <string name="search_logs">搜索日志…</string>
     <string name="clear_logs">清除日志</string>
     <!-- Create Group Dialog -->
-    <string name="create_speaker_group">创建扬声器组</string>
-    <string name="group_name">组名</string>
-    <string name="select_devices">选择设备</string>
     <string name="save">保存</string>
 </resources>

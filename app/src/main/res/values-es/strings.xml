@@ -23,12 +23,9 @@
     <string name="port">Puerto</string>
     <string name="add">Añadir</string>
     <string name="synchronization">Sincronización</string>
-    <string name="speaker_groups">Grupos de altovoces</string>
     <string name="create">Crear</string>
-    <string name="offline_devices_error">Algunos dispositivos de este grupo están desconectados</string>
     <string name="no_servers_found">No se han descubierto servidores</string>
     <string name="grant_notification_permission">Conceder permiso de notificación</string>
-    <string name="devices_count_format">%1$d dispositivos</string>
     <!-- Settings Activity -->
     <string name="settings">Ajustes</string>
     <string name="general">General</string>
@@ -55,8 +52,6 @@
     <string name="language_default">Predeterminado del sistema</string>
     <string name="enable_video">Activar vídeo</string>
     <string name="enable_video_desc">Transmitir vídeo de pantalla junto con audio</string>
-    <string name="multiroom">Soporte multiroom</string>
-    <string name="multiroom_desc">Permite crear grupos de altavoces</string>
     <string name="notification_access">Acceso a notificaciones</string>
     <string name="notification_access_desc">Requerido para metadatos multimedia</string>
     <string name="reset_last_server">Restablecer último servidor</string>
@@ -81,7 +76,6 @@
     <string name="connecting_to">Conectando a %1$s</string>
     <string name="not_casting">No transmitiendo</string>
     <string name="unknown">Desconocido</string>
-    <string name="multiroom_group">Grupo Multiroom</string>
     <string name="connecting">Conectando…</string>
     <!-- Tile Service -->
     <string name="tile_tap_to_cast">Toca para transmitir</string>
@@ -95,9 +89,6 @@
     <string name="search_logs">Buscar en registros…</string>
     <string name="clear_logs">Purgar Bitácoras</string>
     <!-- Create Group Dialog -->
-    <string name="create_speaker_group">Crear grupo de altavoces</string>
-    <string name="group_name">Nombre del grupo</string>
-    <string name="select_devices">Seleccionar dispositivos</string>
     <string name="save">Guardar</string>
     <string name="airplay2_protocol_desc">Flujo para Mac, Apple TV y HomePod</string>
     <string name="companion_desc">Flujo vía puente Bluetooth ESP32</string>

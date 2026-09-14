@@ -40,12 +40,9 @@
     <string name="port">Port</string>
     <string name="add">Add</string>
     <string name="synchronization">Synchronization</string>
-    <string name="speaker_groups">Speaker Groups</string>
     <string name="create">Create</string>
-    <string name="offline_devices_error">Some devices in this group are offline</string>
     <string name="no_servers_found">No servers discovered</string>
     <string name="grant_notification_permission">Grant Notification Permission</string>
-    <string name="devices_count_format">%1$d devices</string>
 
     <!-- Settings Activity -->
     <string name="settings">Settings</string>
@@ -73,8 +70,6 @@
     <string name="language_default">System Default</string>
     <string name="enable_video">Enable Video</string>
     <string name="enable_video_desc">Cast screen video alongside audio</string>
-    <string name="multiroom">Multiroom Support</string>
-    <string name="multiroom_desc">Allows creating speaker groups</string>
     <string name="notification_access">Notification Access</string>
     <string name="notification_access_desc">Required for media metadata AND to start playback on some receivers</string>
     <string name="reset_last_server">Reset Last Server</string>
@@ -106,7 +101,6 @@
     <string name="connecting_to">Connecting to %1$s</string>
     <string name="not_casting">Not Casting</string>
     <string name="unknown">Unknown</string>
-    <string name="multiroom_group">Multiroom Group</string>
     <string name="connecting">Connecting…</string>
 
     <!-- Tile Service -->
@@ -123,9 +117,6 @@
     <string name="clear_logs">Clear Logs</string>
 
     <!-- Create Group Dialog -->
-    <string name="create_speaker_group">Create Speaker Group</string>
-    <string name="group_name">Group Name</string>
-    <string name="select_devices">Select Devices</string>
     <string name="save">Save</string>
 
     <!-- AriaCompanion -->

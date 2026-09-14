@@ -22,12 +22,9 @@
     <string name="port">Porta</string>
     <string name="add">Aggiungi</string>
     <string name="synchronization">Sincronizzazione</string>
-    <string name="speaker_groups">Gruppi di Altoparlanti</string>
     <string name="create">Crea</string>
-    <string name="offline_devices_error">Alcuni dispositivi in questo gruppo sono offline</string>
     <string name="no_servers_found">Nessun server trovato</string>
     <string name="grant_notification_permission">Concedi permesso notifiche</string>
-    <string name="devices_count_format">%1$d dispositivi</string>
     <string name="settings">Impostazioni</string>
     <string name="general">Generali</string>
     <string name="casting">Trasmissione</string>
@@ -53,8 +50,6 @@
     <string name="language_default">Predefinita di Sistema</string>
     <string name="enable_video">Abilita Video</string>
     <string name="enable_video_desc">Trasmetti lo schermo assieme all\'audio</string>
-    <string name="multiroom">Supporto Multiroom</string>
-    <string name="multiroom_desc">Permette di creare gruppi di altoparlanti</string>
     <string name="notification_access">Accesso Notifiche</string>
     <string name="notification_access_desc">Richiesto per i metadati multimediali</string>
     <string name="reset_last_server">Resetta l\'ultimo server</string>
@@ -80,7 +75,6 @@
     <string name="connecting_to">Connettendo a %1$s</string>
     <string name="not_casting">Non stai Trasmettendo</string>
     <string name="unknown">Sconosciuto</string>
-    <string name="multiroom_group">Gruppo Multiroom</string>
     <string name="connecting">Connessione in corso...</string>
     <string name="tile_tap_to_cast">Premi per Trasmettere</string>
     <string name="tile_discovering">Trovando...</string>
@@ -91,8 +85,5 @@
     <string name="packet_logs_desc">Visualizza i log dettagliati dei pacchetti di rete per il debug</string>
     <string name="search_logs">Cerca Log</string>
     <string name="clear_logs">Pulisci i Log</string>
-    <string name="create_speaker_group">Crea Gruppo Altoparlanti</string>
-    <string name="group_name">Nome Gruppo</string>
-    <string name="select_devices">Seleziona Dispositivi</string>
     <string name="save">Salva</string>
 </resources>

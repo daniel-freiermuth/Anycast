@@ -23,12 +23,9 @@
     <string name="port">Poort</string>
     <string name="add">Toevoegen</string>
     <string name="synchronization">Synchronisatie</string>
-    <string name="speaker_groups">Speakergroepen</string>
     <string name="create">Maken</string>
-    <string name="offline_devices_error">Sommige apparaten in deze groep zijn offline</string>
     <string name="no_servers_found">Geen servers gevonden</string>
     <string name="grant_notification_permission">Meldingstoegang verlenen</string>
-    <string name="devices_count_format">%1$d apparaten</string>
     <!-- Settings Activity -->
     <string name="settings">Instellingen</string>
     <string name="general">Algemeen</string>
@@ -55,8 +52,6 @@
     <string name="language_default">Systeemstandaard</string>
     <string name="enable_video">Video inschakelen</string>
     <string name="enable_video_desc">Cast schermvideo samen met audio</string>
-    <string name="multiroom">Multiroom ondersteuning</string>
-    <string name="multiroom_desc">Maakt het mogelijk om speakergroepen aan te maken</string>
     <string name="notification_access">Meldingstoegang</string>
     <string name="notification_access_desc">Vereist voor media-metadata</string>
     <string name="reset_last_server">Laatste server resetten</string>
@@ -83,7 +78,6 @@
     <string name="connecting_to">Verbinden met %1$s</string>
     <string name="not_casting">Niet aan het casten</string>
     <string name="unknown">Onbekend</string>
-    <string name="multiroom_group">Multiroom groep</string>
     <string name="connecting">Verbinden…</string>
     <!-- Tile Service -->
     <string name="tile_tap_to_cast">Tik om te casten</string>
@@ -97,8 +91,5 @@
     <string name="search_logs">Logs doorzoeken…</string>
     <string name="clear_logs">Logs wissen</string>
     <!-- Create Group Dialog -->
-    <string name="create_speaker_group">Speakergroep maken</string>
-    <string name="group_name">Groepsnaam</string>
-    <string name="select_devices">Apparaten selecteren</string>
     <string name="save">Opslaan</string>
 </resources>
