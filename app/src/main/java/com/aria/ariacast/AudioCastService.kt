@@ -22,12 +22,13 @@ import android.media.MediaCodec
 import android.media.MediaCodecInfo
 import android.media.MediaFormat
 import android.media.MediaRoute2Info
-import android.media.MediaRouter2
-import android.media.RouteDiscoveryPreference
-import android.media.projection.MediaProjection
+import android.media.MediaMetadata
 import android.media.session.MediaSession
 import android.media.session.PlaybackState
 import android.media.VolumeProvider
+import android.media.MediaRouter2
+import android.media.RouteDiscoveryPreference
+import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.os.Binder
 import android.os.Build
@@ -441,8 +442,6 @@ class AudioCastService : Service() {
 
         acquireWakeLock()
         startVolumeSession()
-        updateNotification()
-
         val companionIp = sharedPreferences.getString(AriaCompanionActivity.KEY_COMPANION_IP, null)
         val companionPort = sharedPreferences.getInt(AriaCompanionActivity.KEY_COMPANION_PORT, COMPANION_API_PORT)
 
@@ -614,10 +613,8 @@ class AudioCastService : Service() {
         }
 
         acquireWakeLock()
-        // Only intercept volume keys for protocols with remote volume control
         if (destinations.any { it.platform in listOf("AirPlay", "AirPlay2", "AriaCast", "DLNA") }) {
             startVolumeSession()
-            updateNotification()
         }
 
         // MediaProjection token is single-use on Android 14+; obtain it once before any retries.
@@ -2342,24 +2339,24 @@ class AudioCastService : Service() {
     }
 
     /** Start a MediaSession with a remote VolumeProvider so the phone's
-     *  hardware volume buttons control the AirPlay receiver volume. */
+     *  hardware volume buttons control the AirPlay receiver volume when
+     *  no other media app is competing for priority. */
     private fun startVolumeSession() {
-        val session = MediaSession(this, "AriaCast-vol-${System.nanoTime()}")
+        stopVolumeSession()
+        val dest = _activeDestinations.value.firstOrNull()
+        val session = MediaSession(this, "AriaCast")
 
-        @Suppress("DEPRECATION")
-        session.setFlags(
-            MediaSession.FLAG_HANDLES_MEDIA_BUTTONS or
-            MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS
-        )
+        session.setMetadata(MediaMetadata.Builder()
+            .putString(MediaMetadata.METADATA_KEY_TITLE, dest?.name ?: "AirPlay")
+            .putString(MediaMetadata.METADATA_KEY_ARTIST, "AriaCast")
+            .build())
 
         session.setPlaybackState(PlaybackState.Builder()
             .setState(PlaybackState.STATE_PLAYING, 0, 1f)
-            .setActions(PlaybackState.ACTION_PLAY or PlaybackState.ACTION_PAUSE)
             .build())
 
         session.setCallback(object : MediaSession.Callback() {})
 
-        // AirPlay volume: -30 dB (silent) to 0 dB (max), 30 steps of 1 dB
         session.setPlaybackToRemote(object : VolumeProvider(
             VOLUME_CONTROL_ABSOLUTE, MAX_VOLUME_STEPS, receiverVolumeSteps
         ) {
@@ -2367,6 +2364,7 @@ class AudioCastService : Service() {
                 receiverVolumeSteps = volume
                 setCurrentVolume(volume)
                 sendVolumeDb((volume - MAX_VOLUME_STEPS).toDouble())
+                updateNotification()
             }
 
             override fun onAdjustVolume(direction: Int) {
@@ -2374,22 +2372,19 @@ class AudioCastService : Service() {
                 receiverVolumeSteps = newVol
                 setCurrentVolume(newVol)
                 sendVolumeDb((newVol - MAX_VOLUME_STEPS).toDouble())
+                updateNotification()
             }
         })
 
         session.isActive = true
         mediaSession = session
-        Log.d(TAG, "Volume session started — hardware keys route to receiver")
     }
 
     private fun stopVolumeSession() {
         mediaSession?.isActive = false
         mediaSession?.release()
         mediaSession = null
-        Log.d(TAG, "Volume session stopped")
     }
-
-
     private fun stopRemoteSessions(destinations: List<CastDestination>): List<Job> {
         return destinations.map { dest ->
             scope.launch {
