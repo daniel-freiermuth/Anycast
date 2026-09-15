@@ -371,6 +371,7 @@ class AudioCastService : Service() {
     }
 
 
+
     @SuppressLint("MissingPermission")
     private fun startCasting(mediaProjectionToken: Intent, destinations: List<CastDestination>) {
         sessionJob?.cancel()
@@ -418,6 +419,11 @@ class AudioCastService : Service() {
         if (projection == null) {
             Log.e(TAG, "MediaProjection is null")
             PacketLogger.log(PacketDirection.IN, PacketType.HANDSHAKE, "MediaProjection permission was not granted")
+            stopVolumeSession()
+            releaseWakeLock()
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, originalVolume, 0)
+            sessionJob?.cancel()
+            sessionJob = null
             _state.value = CastState.ERROR
             return
         }
