@@ -49,6 +49,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -64,6 +65,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    // Deterministic builds — strip timestamps and ordering variance from the APK
+    // so the same source always produces a byte-identical artifact.
+    packagingOptions {
+        jniLibs { useLegacyPackaging = false }
     }
 }
 
