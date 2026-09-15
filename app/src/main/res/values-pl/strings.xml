@@ -70,26 +70,6 @@
     <string name="search_logs">Przeszukaj dzienniki…</string>
     <string name="clear_logs">Wyczyść dzienniki</string>
     <string name="save">Zapisz</string>
-    <string name="companion">AriaCompanion</string>
-    <string name="companion_desc">Przesyłaj strumieniowo za pośrednictwem mostka Bluetooth ESP32</string>
-    <string name="companion_device">Urządzenie towarzyszące</string>
-    <string name="companion_status_searching">Wyszukiwanie AriaCompanion…</string>
-    <string name="companion_status_found">Znaleziono:%1$s (%2$s)</string>
-    <string name="companion_status_none">Nie znaleziono urządzenia</string>
-    <string name="companion_scan">Skanuj</string>
-    <string name="companion_manual_ip">Wpisz adres IP ręcznie</string>
-    <string name="companion_manual_ip_desc">Wprowadź bezpośrednio adres IP modułu ESP32</string>
-    <string name="companion_manual_ip_hint">192.168.1.x</string>
-    <string name="companion_setup">Pierwsza konfiguracja</string>
-    <string name="companion_setup_desc">Połącz telefon z siecią Wi-Fi AriaCast-Setup, którą nadaje moduł ESP32, a następnie wprowadź poniżej dane logowania do domowej sieci Wi-Fi.</string>
-    <string name="companion_wifi_ssid">Nazwa sieci Wi-Fi w domu</string>
-    <string name="companion_wifi_pass">Hasło do domowej sieci Wi-Fi</string>
-    <string name="companion_configure">Konfiguruj i połącz</string>
-    <string name="companion_audio_source">Użyj jako źródło dźwięku</string>
-    <string name="companion_audio_source_desc">Dźwięk z telefonu jest przesyłany do ESP32 przez Bluetooth; AriaCast przesyła go stamtąd dalej</string>
-    <string name="companion_configure_ok">Dane uwierzytelniające wysłane — ESP32 uruchamia się ponownie</string>
-    <string name="companion_configure_fail">Nie udało się połączyć ze stroną konfiguracyjną ESP32</string>
-    <string name="companion_ip_saved">Zapisane IP:%1$s</string>
     <string name="airplay_pin_title">Wpisz PIN AirPlay</string>
     <string name="airplay_pin_message">Wprowadź kod wyświetlony na ekranie urządzenia (%1$s)</string>
     <string name="manage_airplay_pins">Zarządzaj kodami PIN AirPlay</string>
@@ -101,5 +81,4 @@
     <string name="manual_entry">Wprowadzanie ręczne</string>
     <string name="casting">Przesyłanie</string>
     <string name="ariacast_protocol_desc">Natywny protokół przesyłania hi-fi</string>
-    <string name="companion_saved">Zapisanych: %1$s</string>
 </resources>

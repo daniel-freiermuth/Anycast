@@ -314,12 +314,6 @@ class AudioCastService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_START_COMPANION -> {
-                cleanupSession()
-                val destinations = parseDestinations(intent)
-                if (destinations.isNotEmpty()) startCastingWithCompanion(destinations)
-                return START_STICKY
-            }
             ACTION_START -> {
                 cleanupSession()
 
@@ -382,187 +376,6 @@ class AudioCastService : Service() {
         return destinations
     }
 
-    // AriaCompanion streams straight from the ESP32 WiFi sender board to a
-    // real AriaCast Receiver (native protocol only — that's all the board
-    // speaks); the phone is never in the audio path. This service's only
-    // job is to point the board at the chosen receiver via its REST API.
-    @SuppressLint("MissingPermission")
-    private fun startCastingWithCompanion(destinations: List<CastDestination>) {
-        val receiver = destinations.firstOrNull()
-        if (receiver == null) {
-            Log.e(TAG, "No AriaCast receiver selected for AriaCompanion")
-            _state.value = CastState.ERROR
-            return
-        }
-        if (destinations.size > 1) {
-            Log.w(TAG, "AriaCompanion streams to a single receiver; ignoring ${destinations.size - 1} extra destination(s)")
-        }
-
-        sessionJob?.cancel()
-        _activeDestinations.value = listOf(receiver)
-        _state.value = CastState.CONNECTING
-        sessionJob = SupervisorJob()
-        val sessionScope = CoroutineScope(Dispatchers.IO + sessionJob!!)
-
-        originalVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
-
-        with(sharedPreferences.edit()) {
-            putString(KEY_LAST_SERVER_HOST, receiver.host)
-            putInt(KEY_LAST_SERVER_PORT, receiver.port)
-            putString(KEY_LAST_SERVER_NAME, receiver.name)
-            putString(KEY_LAST_SERVER_PLATFORM, receiver.platform)
-            apply()
-        }
-
-        try {
-            val notification = createNotification()
-            val serviceType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE
-            } else 0
-            startForeground(NOTIFICATION_ID, notification, serviceType)
-        } catch (e: Exception) {
-            if (e is ForegroundServiceStartNotAllowedException) {
-                Log.e(TAG, "Foreground service start not allowed", e)
-                _state.value = CastState.ERROR
-                return
-            } else {
-                throw e
-            }
-        }
-
-        acquireWakeLock()
-        startVolumeSession()
-        val companionIp = sharedPreferences.getString(AriaCompanionActivity.KEY_COMPANION_IP, null)
-        val companionPort = sharedPreferences.getInt(AriaCompanionActivity.KEY_COMPANION_PORT, COMPANION_API_PORT)
-
-        if (companionIp.isNullOrEmpty()) {
-            Log.e(TAG, "No companion IP configured")
-            _state.value = CastState.ERROR
-            return
-        }
-
-        // Set before launching so performMetadataUpdate already routes
-        // through the board for the initial send below and the refresh loop.
-        companionApiHost = companionIp
-        companionApiPort = companionPort
-
-        sessionScope.launch {
-            startMetadataRefreshLoop()
-            _metadata.value?.let { sendMetadata(it) }
-            startCompanionRelay(companionIp, companionPort, receiver)
-        }
-    }
-
-    private var companionApiHost: String? = null
-    private var companionApiPort: Int = 0
-
-    private suspend fun startCompanionRelay(apiHost: String, apiPort: Int, receiver: CastDestination) {
-        val pointed = withContext(Dispatchers.IO) {
-            setCompanionReceiverTarget(apiHost, apiPort, receiver.host, receiver.port)
-        }
-        if (!pointed) {
-            Log.e(TAG, "Companion: failed to reach AriaCompanion REST API at $apiHost:$apiPort")
-            _state.value = CastState.ERROR
-            return
-        }
-
-        Log.i(TAG, "Companion: told $apiHost:$apiPort to stream to ${receiver.host}:${receiver.port}")
-
-        // The board now streams directly to the receiver on its own; poll its
-        // status just to reflect the real connection state in the app instead
-        // of optimistically showing CASTING the instant the REST call succeeds.
-        var consecutiveFailures = 0
-        var lastLoggedState: String? = null
-        while (currentCoroutineContext().isActive) {
-            val boardState = withContext(Dispatchers.IO) { fetchCompanionReceiverState(apiHost, apiPort) }
-            if (boardState != null) {
-                if (consecutiveFailures > 0) {
-                    PacketLogger.log(PacketDirection.IN, PacketType.STATS, "AriaCompanion contact restored ($apiHost:$apiPort)")
-                }
-                consecutiveFailures = 0
-                if (boardState != lastLoggedState) {
-                    PacketLogger.log(PacketDirection.IN, PacketType.STATS, "AriaCompanion state: $boardState")
-                    lastLoggedState = boardState
-                }
-                _state.value = if (boardState == "streaming") CastState.CASTING else CastState.CONNECTING
-                updateNotification()
-            } else {
-                consecutiveFailures++
-                if (consecutiveFailures == 3) {
-                    Log.e(TAG, "Companion: lost contact with $apiHost:$apiPort")
-                    PacketLogger.log(PacketDirection.IN, PacketType.STATS, "Lost contact with AriaCompanion ($apiHost:$apiPort)")
-                    _state.value = CastState.ERROR
-                    updateNotification()
-                }
-            }
-            delay(3000)
-        }
-    }
-
-    private fun fetchCompanionReceiverState(apiHost: String, apiPort: Int): String? {
-        val url = URL("http://$apiHost:$apiPort/api/status")
-        val conn = url.openConnection() as HttpURLConnection
-        return try {
-            conn.requestMethod = "GET"
-            conn.connectTimeout = 3000
-            conn.readTimeout = 3000
-            val body = conn.inputStream.bufferedReader().use { it.readText() }
-            JSONObject(body).optJSONObject("receiver")?.optString("state")
-        } catch (e: Exception) {
-            null
-        } finally {
-            conn.disconnect()
-        }
-    }
-
-    private fun setCompanionReceiverTarget(apiHost: String, apiPort: Int, receiverHost: String, receiverPort: Int): Boolean {
-        return try {
-            val url = URL("http://$apiHost:$apiPort/api/receiver")
-            val body = JSONObject().apply {
-                put("host", receiverHost)
-                put("port", receiverPort)
-            }.toString()
-            val conn = (url.openConnection() as HttpURLConnection).apply {
-                requestMethod = "POST"
-                doOutput = true
-                connectTimeout = 5000
-                readTimeout = 5000
-                setRequestProperty("Content-Type", "application/json")
-            }
-            OutputStreamWriter(conn.outputStream).use { it.write(body) }
-            val responseCode = conn.responseCode
-            conn.disconnect()
-            val ok = responseCode == 200
-            if (ok) {
-                PacketLogger.log(PacketDirection.OUT, PacketType.HANDSHAKE, "AriaCompanion ($apiHost:$apiPort) told to stream to $receiverHost:$receiverPort")
-            } else {
-                PacketLogger.log(PacketDirection.IN, PacketType.HANDSHAKE, "AriaCompanion setReceiver returned HTTP $responseCode")
-            }
-            ok
-        } catch (e: Exception) {
-            Log.e(TAG, "Companion: setReceiver failed: ${e.message}")
-            PacketLogger.log(PacketDirection.IN, PacketType.HANDSHAKE, "AriaCompanion setReceiver failed: ${e.message ?: e.javaClass.simpleName}")
-            false
-        }
-    }
-
-    private fun clearCompanionReceiverTarget(apiHost: String, apiPort: Int) {
-        try {
-            val url = URL("http://$apiHost:$apiPort/api/receiver")
-            val conn = (url.openConnection() as HttpURLConnection).apply {
-                requestMethod = "DELETE"
-                connectTimeout = 3000
-                readTimeout = 3000
-            }
-            conn.responseCode
-            conn.disconnect()
-            PacketLogger.log(PacketDirection.OUT, PacketType.HANDSHAKE, "AriaCompanion ($apiHost:$apiPort) receiver cleared")
-        } catch (e: Exception) {
-            Log.w(TAG, "Companion: clearReceiver failed: ${e.message}")
-            PacketLogger.log(PacketDirection.IN, PacketType.HANDSHAKE, "AriaCompanion clearReceiver failed: ${e.message ?: e.javaClass.simpleName}")
-        }
-    }
 
     @SuppressLint("MissingPermission")
     private fun startCasting(mediaProjectionToken: Intent, destinations: List<CastDestination>) {
@@ -1859,30 +1672,6 @@ class AudioCastService : Service() {
             }
         }
 
-        val companionHost = companionApiHost
-        if (companionHost != null) {
-            // AriaCompanion: the ESP32 board owns the connection to the
-            // receiver, so relay metadata through its REST API instead of
-            // posting straight to the receiver like the branches below do.
-            try {
-                client.post {
-                    url {
-                        protocol = URLProtocol.HTTP
-                        host = companionHost
-                        port = companionApiPort
-                        path("api", "metadata")
-                    }
-                    contentType(ContentType.Application.Json)
-                    setBody(mapOf("data" to finalMetadata))
-                    timeout { requestTimeoutMillis = 5000 }
-                }
-                PacketLogger.log(PacketDirection.OUT, PacketType.METADATA, "Metadata relayed via AriaCompanion ($companionHost:$companionApiPort)")
-            } catch (e: Exception) {
-                Log.w(TAG, "Companion: metadata relay failed: ${e.message}")
-                PacketLogger.log(PacketDirection.OUT, PacketType.METADATA, "Metadata relay to AriaCompanion failed: ${e.message ?: e.javaClass.simpleName}")
-            }
-            return
-        }
 
         val metadataKey = "${finalMetadata.title}-${finalMetadata.artist}"
 
@@ -2211,11 +2000,6 @@ class AudioCastService : Service() {
         try { artworkServerSocket?.close() } catch (e: Exception) {}
         artworkServerSocket = null
 
-        companionApiHost?.let { host ->
-            val port = companionApiPort
-            scope.launch(Dispatchers.IO) { clearCompanionReceiverTarget(host, port) }
-        }
-        companionApiHost = null
 
         controlSessions.clear()
         // Close the sockets only after giving the TEARDOWN/stop sends launched by
@@ -2427,7 +2211,6 @@ class AudioCastService : Service() {
         private const val NOTIFICATION_ID = 1
         private const val NOTIFICATION_CHANNEL_ID = "AudioCastChannel"
         const val ACTION_START = "com.aria.ariacast.ACTION_START"
-        const val ACTION_START_COMPANION = "com.aria.ariacast.ACTION_START_COMPANION"
         const val ACTION_STOP = "com.aria.ariacast.ACTION_STOP"
         const val ACTION_VOLUME_UP = "com.aria.ariacast.ACTION_VOLUME_UP"
         const val ACTION_VOLUME_DOWN = "com.aria.ariacast.ACTION_VOLUME_DOWN"
@@ -2453,11 +2236,6 @@ class AudioCastService : Service() {
         const val SAMPLE_RATE = 48000
         const val FRAME_SIZE = 3840
         const val LATENCY = 66150
-        // REST API port on the AriaCompanion WiFi sender board (renamed from
-        // the old raw-TCP COMPANION_STREAM_PORT=7001 now that the board
-        // streams straight to a chosen AriaCast Receiver instead of to a
-        // bespoke TCP port on the phone).
-        const val COMPANION_API_PORT = 8081
         private const val AP2_ALAC_FRAME_SIZE = 352  // ALAC frame size in samples for AirPlay 2
         private const val MAX_VOLUME_STEPS = 30
         

@@ -6,16 +6,12 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- Not required: NfcWriteActivity checks NfcAdapter.getDefaultAdapter() itself and
@@ -35,7 +31,7 @@
 
         <service
             android:name=".AudioCastService"
-            android:foregroundServiceType="mediaProjection|connectedDevice"
+            android:foregroundServiceType="mediaProjection"
             android:exported="false" />
 
         <service
@@ -93,7 +89,6 @@
         <activity android:name=".AirPlayPinsActivity" android:exported="false" />
         <activity android:name=".NfcWriteActivity" android:exported="false" />
         <activity android:name=".PacketLogActivity" android:exported="false" />
-        <activity android:name=".AriaCompanionActivity" android:exported="false" />
 
     </application>
 

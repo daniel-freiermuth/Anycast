@@ -45,9 +45,6 @@ class SettingsActivity : AppCompatActivity() {
             showLanguageSelectionDialog()
         }
 
-        findViewById<View>(R.id.companionLayout).setOnClickListener {
-            startActivity(Intent(this, AriaCompanionActivity::class.java))
-        }
 
         findViewById<View>(R.id.protocolsLayout).setOnClickListener {
             startActivity(Intent(this, ProtocolsActivity::class.java))

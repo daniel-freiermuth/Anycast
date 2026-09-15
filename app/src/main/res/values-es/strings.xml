@@ -80,34 +80,12 @@
     <!-- Create Group Dialog -->
     <string name="save">Guardar</string>
     <string name="airplay2_protocol_desc">Flujo para Mac, Apple TV y HomePod</string>
-    <string name="companion_desc">Flujo vía puente Bluetooth ESP32</string>
-    <string name="companion_status_found">Encontrado: %1$s (%2$s)</string>
-    <string name="companion_status_none">Ningún dispositivo encontrado</string>
-    <string name="companion_scan">Analizar</string>
-    <string name="companion_manual_ip">Introduzca IP manualmente</string>
-    <string name="companion_manual_ip_desc">Introduzca directamente la dirección IP ESP32</string>
-    <string name="companion_manual_ip_hint">192.168.1.x</string>
-    <string name="companion_setup">Configuración por primera vez</string>
-    <string name="companion_setup_desc">Conecte su teléfono a la red WiFi AriaCast-Setup que los broadcasts ESP32, entonces introduzca sus credenciales Wi-Fi de casa a continuación.</string>
-    <string name="companion">AriaCompanion</string>
-    <string name="companion_device">Dispositivo de acompañante</string>
-    <string name="companion_status_searching">Búsqueda para AriaCompanion…</string>
-    <string name="companion_audio_source">Utilice un Origen de Sonido</string>
-    <string name="companion_audio_source_desc">Reproductores de sonido telefónico para ESP32 vía Bluetooth; AriaCast lo reparte desde allí</string>
-    <string name="companion_cleared">Compañero purgado</string>
-    <string name="companion_saved">Compañero guardado: %1$s</string>
-    <string name="companion_ip_saved">IP guardada: %1$s</string>
     <string name="airplay_pin_title">Introducir PIN AirPlay</string>
     <string name="airplay_pin_message">Introduzca el código mostrado en la pantalla del dispositivo (%1$s)</string>
     <string name="manage_airplay_pins">Gestionar los PIN de AirPlay</string>
     <string name="manage_airplay_pins_desc">Gestión guardada de los PIN de AirPlay para dispositivos emparejados</string>
     <string name="no_pins_saved">Ningún PIN guardado</string>
-    <string name="companion_wifi_ssid">SSID Wi-Fi Home</string>
-    <string name="companion_wifi_pass">Contraseña Wi-Fi Home</string>
-    <string name="companion_configure">Configurar y Conectar</string>
     <string name="edit_pin">Editar PIN</string>
     <string name="delete_pin">Eliminar PIN</string>
     <string name="airplay2_protocol">AirPlay 2</string>
-    <string name="companion_configure_ok">Credenciales enviadas — ESP32 es está reiniciando</string>
-    <string name="companion_configure_fail">No pudo alcanzar la página de configuración de ESP32</string>
 </resources>

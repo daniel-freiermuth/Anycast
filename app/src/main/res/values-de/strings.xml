@@ -87,17 +87,4 @@
     <string name="airplay_pin_message">Gebe den Code ein der auf dem Geräte Bilschirm gezeigt wird (%1$s)</string>
     <string name="manage_airplay_pins">Verwalten von AirPlay PINs</string>
     <string name="manage_airplay_pins_desc">Gespeicherte AirPlay-PINs für gekoppelte Geräte verwalten</string>
-    <string name="companion">AriaCompanion</string>
-    <string name="companion_desc">Streaming über ESP32-Bluetooth-Bridge</string>
-    <string name="companion_device">Begleitgerät</string>
-    <string name="companion_status_searching">Suche nach AriaCompanion…</string>
-    <string name="companion_status_found">Gefunden: %1$s (%2$s)</string>
-    <string name="companion_status_none">Kein Gerät gefunden</string>
-    <string name="companion_scan">Scan</string>
-    <string name="companion_manual_ip">IP manuell eingeben</string>
-    <string name="companion_manual_ip_desc">Geben Sie die IP-Adresse des ESP32 direkt ein.</string>
-    <string name="companion_manual_ip_hint">192.168.1.x</string>
-    <string name="companion_setup">Ersteinrichtung</string>
-    <string name="companion_setup_desc">Verbinden Sie Ihr Telefon mit dem WLAN-Netzwerk „AriaCast-Setup“, das der ESP32 bereitstellt, und geben Sie anschließend unten die Zugangsdaten für Ihr Heim-WLAN ein.</string>
-    <string name="companion_wifi_ssid">WLAN-SSID für zu Hause</string>
 </resources>
