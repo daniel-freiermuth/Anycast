@@ -14,7 +14,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.media.projection.MediaProjectionManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
@@ -194,8 +193,7 @@ class MainActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             permissionsNeeded.add(Manifest.permission.RECORD_AUDIO)
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             permissionsNeeded.add(Manifest.permission.POST_NOTIFICATIONS)
         }
         if (permissionsNeeded.isNotEmpty()) {

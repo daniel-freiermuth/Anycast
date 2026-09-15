@@ -26,7 +26,6 @@ import android.media.RouteDiscoveryPreference
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.os.Binder
-import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.util.Log
@@ -317,12 +316,7 @@ class AudioCastService : Service() {
             ACTION_START -> {
                 cleanupSession()
 
-                val mediaProjectionToken = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    intent.getParcelableExtra(EXTRA_MEDIA_PROJECTION_TOKEN, Intent::class.java)
-                } else {
-                    @Suppress("DEPRECATION")
-                    intent.getParcelableExtra(EXTRA_MEDIA_PROJECTION_TOKEN)
-                }
+                val mediaProjectionToken = intent.getParcelableExtra(EXTRA_MEDIA_PROJECTION_TOKEN, Intent::class.java)
 
                 val destinations = parseDestinations(intent)
                 if (mediaProjectionToken != null && destinations.isNotEmpty()) {
@@ -401,9 +395,7 @@ class AudioCastService : Service() {
 
         try {
             val notification = createNotification()
-            val serviceType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
-            } else 0
+            val serviceType = ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
             startForeground(NOTIFICATION_ID, notification, serviceType)
         } catch (e: Exception) {
             if (e is ForegroundServiceStartNotAllowedException) {

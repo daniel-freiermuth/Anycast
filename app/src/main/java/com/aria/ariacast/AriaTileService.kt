@@ -3,19 +3,17 @@ package com.aria.ariacast
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.app.PendingIntent
 import android.content.ServiceConnection
-import android.os.Build
 import android.os.IBinder
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import androidx.annotation.RequiresApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@RequiresApi(Build.VERSION_CODES.N)
 class AriaTileService : TileService() {
 
     private val job = SupervisorJob()
@@ -76,7 +74,11 @@ class AriaTileService : TileService() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 // This will show the activity over the QS panel, user grants permission,
                 // and the activity will start the foreground service.
-                startActivityAndCollapse(intent)
+                val pendingIntent = PendingIntent.getActivity(
+                    this, 0, intent,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
+                startActivityAndCollapse(pendingIntent)
             }
             // If the tile is active, casting is on. Tapping should stop it.
             Tile.STATE_ACTIVE -> {

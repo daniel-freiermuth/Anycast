@@ -63,18 +63,11 @@ class CastTileService : TileService() {
         val intent = Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            val pendingIntent = PendingIntent.getActivity(
-                this,
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-            startActivityAndCollapse(pendingIntent)
-        } else {
-            @Suppress("DEPRECATION")
-            startActivityAndCollapse(intent)
-        }
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        startActivityAndCollapse(pendingIntent)
     }
 
     private fun updateTileState(state: CastState) {

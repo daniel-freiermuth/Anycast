@@ -11,7 +11,6 @@ import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.nfc.tech.NdefFormatable
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -167,11 +166,7 @@ class NfcWriteActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        val tag: Tag? = if (Build.VERSION.SDK_INT >= 33) {
-            intent.getParcelableExtra(NfcAdapter.EXTRA_TAG, Tag::class.java)
-        } else {
-            @Suppress("DEPRECATION") intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
-        }
+        val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG, Tag::class.java)
         if (tag != null) writeTag(tag)
     }
 

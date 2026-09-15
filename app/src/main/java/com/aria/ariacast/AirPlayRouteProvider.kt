@@ -8,7 +8,6 @@ import android.media.MediaRoute2Info
 import android.media.MediaRoute2ProviderService
 import android.media.RouteDiscoveryPreference
 import android.media.RoutingSessionInfo
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
@@ -114,10 +113,7 @@ class AirPlayRouteProvider : MediaRoute2ProviderService() {
             .setVolume(currentVolume)
             .setDescription(server.platform ?: "AirPlay")
 
-        // TYPE_REMOTE_SPEAKER was added in API 34
-        if (Build.VERSION.SDK_INT >= 34) {
-            builder.setType(MediaRoute2Info.TYPE_REMOTE_SPEAKER)
-        }
+        builder.setType(MediaRoute2Info.TYPE_REMOTE_SPEAKER)
         return builder.build()
     }
 
