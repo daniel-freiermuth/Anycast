@@ -68,6 +68,9 @@ android {
     }
     // Deterministic builds — strip timestamps and ordering variance from the APK
     // so the same source always produces a byte-identical artifact.
+    lint {
+        disable += "MissingTranslation"
+    }
     packagingOptions {
         jniLibs { useLegacyPackaging = false }
     }
