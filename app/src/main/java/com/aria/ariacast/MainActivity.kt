@@ -211,12 +211,12 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Handles ariacast://<host>[:<port>][?type=<type>&name=<name>][&ssid=<ssid>&pass=<pass>]
-     * links (e.g. from an NFC tag). type defaults to "ariacast" (AriaCast's own protocol)
+     * links (e.g. from a deep link). type defaults to "ariacast" (AriaCast's own protocol)
      * when omitted, matching a bare `ariacast://host` link. Tapping the same link again
      * while already casting to that host stops casting instead of restarting it.
      *
      * ssid/pass ask the phone to save and join that Wi-Fi network first via Android's own
-     * "save this network?" dialog (see WifiJoinManager) - e.g. a tag that should both get
+     * "save this network?" dialog (see WifiJoinManager) - e.g. a link that should both get
      * the phone onto the receiver's network and start casting to it. That has to happen
      * before anything else here: discovery (mDNS/SSDP) can't find a device on a network the
      * phone isn't on yet, so a wifi-joining link skips discovery-based resolution entirely

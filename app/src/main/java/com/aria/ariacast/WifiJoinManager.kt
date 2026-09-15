@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 
 /**
  * A deep link (ariacast://...?ssid=...&pass=...) can ask the phone to join a specific
- * Wi-Fi network before casting - e.g. an NFC tag that should both switch networks and
+ * Wi-Fi network before casting - e.g. a link that should both switch networks and
  * start casting to a receiver that only lives on that network.
  *
  * This goes through Android's own Settings.ACTION_WIFI_ADD_NETWORKS flow instead of

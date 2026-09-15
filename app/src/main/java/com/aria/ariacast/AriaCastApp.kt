@@ -6,7 +6,7 @@ import android.content.Context
 class AriaCastApp : Application() {
 
     /** Shared discovery manager — lives as long as the process.
-     *  Used by MainActivity, AirPlayRouteProvider, and NfcWriteActivity. */
+     *  Used by MainActivity and AirPlayRouteProvider. */
     val discoveryManager: DiscoveryManager by lazy { DiscoveryManager(this) }
 
     override fun onCreate() {
