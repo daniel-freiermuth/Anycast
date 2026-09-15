@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var castButton: MaterialButton
     private lateinit var discoveryButton: MaterialButton
     private lateinit var serverRecyclerView: RecyclerView
-    private lateinit var permissionButton: MaterialButton
     private lateinit var statusCard: MaterialCardView
     private lateinit var syncSection: LinearLayout
     private lateinit var syncSliderContainer: LinearLayout
@@ -401,7 +400,6 @@ class MainActivity : AppCompatActivity() {
         castButton = findViewById(R.id.castButton)
         discoveryButton = findViewById(R.id.discoveryButton)
         serverRecyclerView = findViewById(R.id.serverRecyclerView)
-        permissionButton = findViewById(R.id.permissionButton)
         statusCard = findViewById(R.id.statusCard)
         syncSection = findViewById(R.id.syncSection)
         syncSliderContainer = findViewById(R.id.syncSliderContainer)
@@ -448,9 +446,6 @@ class MainActivity : AppCompatActivity() {
         }
         
 
-        permissionButton.setOnClickListener {
-            showNotificationAccessExplanationDialog()
-        }
 
         lifecycleScope.launch {
             combine(discoveryManager.servers, _audioCastServiceFlow, _refreshTrigger) { servers, service, _ ->
@@ -512,7 +507,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         
-        checkNotificationListenerPermission()
 
         handleDeepLink(intent)
     }
@@ -635,7 +629,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        checkNotificationListenerPermission()
         
         val newThemeMode = sharedPreferences.getInt(SettingsActivity.KEY_THEME, ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM)
 
@@ -648,13 +641,6 @@ class MainActivity : AppCompatActivity() {
         updateSyncUi()
     }
 
-    private fun checkNotificationListenerPermission() {
-        if (!MediaNotificationListener.isEnabled(this)) {
-            permissionButton.visibility = View.VISIBLE
-        } else {
-            permissionButton.visibility = View.GONE
-        }
-    }
 
     private fun showPairingPinDialog(host: String) {
         val input = EditText(this).apply {
