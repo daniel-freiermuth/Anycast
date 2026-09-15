@@ -40,11 +40,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
-import kotlin.coroutines.resume
-import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -151,16 +147,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var wifiAddNetworkContinuation: CancellableContinuation<Boolean>? = null
-
-    /** Result of the Settings.ACTION_WIFI_ADD_NETWORKS dialog launched from
-     *  [joinDeepLinkWifi] - see WifiJoinManager for why this doesn't try to hold or
-     *  release the network itself. */
-    private val requestAddWifiNetwork = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        val saved = WifiJoinManager.interpretResult(result.resultCode, result.data)
-        wifiAddNetworkContinuation?.let { if (it.isActive) it.resume(saved) }
-        wifiAddNetworkContinuation = null
-    }
 
     private val requestCastPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { grants ->
         val recordAudioGranted = grants[Manifest.permission.RECORD_AUDIO]
@@ -209,151 +195,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    /**
-     * Handles ariacast://<host>[:<port>][?type=<type>&name=<name>][&ssid=<ssid>&pass=<pass>]
-     * links (e.g. from a deep link). type defaults to "ariacast" (AriaCast's own protocol)
-     * when omitted, matching a bare `ariacast://host` link. Tapping the same link again
-     * while already casting to that host stops casting instead of restarting it.
-     *
-     * ssid/pass ask the phone to save and join that Wi-Fi network first via Android's own
-     * "save this network?" dialog (see WifiJoinManager) - e.g. a link that should both get
-     * the phone onto the receiver's network and start casting to it. That has to happen
-     * before anything else here: discovery (mDNS/SSDP) can't find a device on a network the
-     * phone isn't on yet, so a wifi-joining link skips discovery-based resolution entirely
-     * and connects directly using the target's default port, then waits for that address to
-     * actually become reachable before casting to it.
-     */
-    private fun handleDeepLink(intent: Intent?) {
-        if (intent == null || intent.action != Intent.ACTION_VIEW) return
-        val uri = intent.data ?: return
-        if (uri.scheme?.equals("ariacast", ignoreCase = true) != true) return
-        // Consume it so a later onCreate/onNewIntent replay (e.g. a config change) doesn't
-        // re-trigger the same cast/stop action a second time.
-        intent.data = null
-
-        val host = uri.host
-        if (host.isNullOrEmpty()) {
-            Toast.makeText(this, getString(R.string.deep_link_invalid), Toast.LENGTH_SHORT).show()
-            return
-        }
-        val requestedPort = uri.port // -1 when not specified
-        val platform = platformForDeepLinkType(uri.getQueryParameter("type"))
-        val name = uri.getQueryParameter("name")
-        val label = name ?: host
-        val ssid = uri.getQueryParameter("ssid")
-
-        lifecycleScope.launch {
-            val service = waitForServiceConnection()
-            val activeHost = service?.activeDestinations?.value?.firstOrNull()?.host
-            if (service?.state?.value == CastState.CASTING && activeHost == host) {
-                Toast.makeText(this@MainActivity, getString(R.string.deep_link_stopping, label), Toast.LENGTH_SHORT).show()
-                startService(Intent(this@MainActivity, AudioCastService::class.java).apply {
-                    action = AudioCastService.ACTION_STOP
-                })
-                return@launch
-            }
-
-            if (!ssid.isNullOrEmpty()) {
-                val saved = joinDeepLinkWifi(ssid, uri.getQueryParameter("pass") ?: "")
-                if (!saved) {
-                    Toast.makeText(this@MainActivity, getString(R.string.deep_link_wifi_failed, ssid), Toast.LENGTH_LONG).show()
-                    return@launch
-                }
-            }
-
-            val target = resolveDeepLinkTarget(host, requestedPort, platform, name, skipDiscovery = !ssid.isNullOrEmpty())
-            if (target == null) {
-                Toast.makeText(this@MainActivity, getString(R.string.deep_link_not_found, label), Toast.LENGTH_LONG).show()
-                return@launch
-            }
-
-            if (!ssid.isNullOrEmpty() && !WifiJoinManager.waitForReachable(target.host, target.port)) {
-                Toast.makeText(this@MainActivity, getString(R.string.deep_link_wifi_unreachable, ssid), Toast.LENGTH_LONG).show()
-                return@launch
-            }
-
-            Toast.makeText(this@MainActivity, getString(R.string.deep_link_casting, target.name, target.host), Toast.LENGTH_SHORT).show()
-            isUserSelecting = true
-            castToServers(listOf(target))
-        }
-    }
-
-    private suspend fun waitForServiceConnection(timeoutMs: Long = 3000): AudioCastService? {
-        val deadline = System.currentTimeMillis() + timeoutMs
-        while (audioCastService == null && System.currentTimeMillis() < deadline) delay(100)
-        return audioCastService
-    }
-
-    /** Launches Android's native "save this Wi-Fi network?" dialog and suspends until the
-     *  user responds. See WifiJoinManager for why the app doesn't hold or release this
-     *  network itself once saved. */
-    private suspend fun joinDeepLinkWifi(ssid: String, password: String): Boolean =
-        suspendCancellableCoroutine { cont ->
-            wifiAddNetworkContinuation = cont
-            cont.invokeOnCancellation { wifiAddNetworkContinuation = null }
-            requestAddWifiNetwork.launch(WifiJoinManager.buildAddNetworkIntent(ssid, password))
-        }
-
-    /**
-     * Resolves a deep link into a full [Server]. Normally an already-discovered device is
-     * preferred - it carries metadata a blind connection can't (DLNA's SSDP-sourced control
-     * URLs, an AirPlay 2 device's pairing key) - falling back to a direct connection using
-     * the platform's well-known default port. When [skipDiscovery] is set (a Wi-Fi-joining
-     * link), discovery is skipped entirely and this only ever returns a direct connection.
-     */
-    private suspend fun resolveDeepLinkTarget(host: String, requestedPort: Int, platform: String, name: String?, skipDiscovery: Boolean = false): Server? {
-        fun directConnect(): Server? {
-            val blindPort = if (requestedPort > 0) requestedPort else defaultPortForDeepLinkPlatform(platform)
-            if (blindPort <= 0) return null
-            return Server(
-                name = name ?: host,
-                host = host,
-                port = blindPort,
-                version = "1.0",
-                codecs = listOf("pcm"),
-                sampleRate = 48000,
-                channels = 2,
-                platform = platform
-            )
-        }
-
-        if (skipDiscovery) return directConnect()
-
-        fun findMatch(): Server? {
-            val servers = discoveryManager.servers.value
-            if (!name.isNullOrEmpty()) {
-                servers.find { it.name.equals(name, ignoreCase = true) && it.platform == platform }?.let { return it }
-            }
-            return servers.find { it.host == host && it.platform == platform }
-        }
-
-        findMatch()?.let { return it }
-
-        // Give discovery (already running from onStart()) a short window to find it.
-        val deadline = System.currentTimeMillis() + 6000
-        while (System.currentTimeMillis() < deadline) {
-            delay(400)
-            findMatch()?.let { return it }
-        }
-
-        return directConnect()
-    }
-
-    private fun platformForDeepLinkType(type: String?): String = when (type?.lowercase()) {
-        "airplay" -> "AirPlay"
-        "airplay2" -> "AirPlay2"
-        "dlna" -> "DLNA"
-        "googlecast", "google_cast", "google-cast" -> "Google Cast"
-        else -> "AriaCast"
-    }
-
-    private fun defaultPortForDeepLinkPlatform(platform: String): Int = when (platform) {
-        "AriaCast" -> 12889
-        "AirPlay" -> 5000
-        "AirPlay2" -> 7000
-        "Google Cast" -> 8008
-        else -> 0 // DLNA needs SSDP-sourced control URLs - can't be reached blind.
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
@@ -470,14 +311,8 @@ class MainActivity : AppCompatActivity() {
         }
         
 
-        handleDeepLink(intent)
     }
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        setIntent(intent)
-        handleDeepLink(intent)
-    }
 
     private fun updateSyncUi() {
         val s = audioCastService
