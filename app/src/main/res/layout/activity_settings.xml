@@ -83,48 +83,6 @@
                         android:textColor="?android:attr/textColorSecondary" />
                 </LinearLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/accentLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="12dp">
-
-                <ImageView
-                    android:id="@+id/accentColorPreview"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/presence_online"
-                    app:tint="?attr/colorPrimary" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/accent_color"
-                        android:textAppearance="?attr/textAppearanceTitleMedium" />
-
-                    <TextView
-                        android:id="@+id/accentStatusText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/accent_blue"
-                        android:textAppearance="?attr/textAppearanceBodySmall"
-                        android:textColor="?android:attr/textColorSecondary" />
-                </LinearLayout>
-            </LinearLayout>
-
             <LinearLayout
                 android:id="@+id/languageLayout"
                 android:layout_width="match_parent"

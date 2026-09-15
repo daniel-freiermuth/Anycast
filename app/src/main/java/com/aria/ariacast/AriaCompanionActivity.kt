@@ -72,7 +72,6 @@ class AriaCompanionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val prefs = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
-        setTheme(ThemeUtils.getThemeForAccent(prefs.getInt(SettingsActivity.KEY_ACCENT_COLOR, R.color.accent_blue)))
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_aria_companion)

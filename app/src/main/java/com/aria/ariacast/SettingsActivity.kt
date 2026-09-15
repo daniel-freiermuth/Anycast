@@ -2,16 +2,13 @@ package com.aria.ariacast
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.MaterialToolbar
@@ -24,14 +21,10 @@ class SettingsActivity : AppCompatActivity() {
     private var packetLogClickCount = 0
     private var lastClickTime: Long = 0
     private lateinit var themeStatusText: TextView
-    private lateinit var accentStatusText: TextView
     private lateinit var languageStatusText: TextView
-    private lateinit var accentColorPreview: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
-        val accentColor = sharedPreferences.getInt(KEY_ACCENT_COLOR, R.color.accent_blue)
-        setTheme(ThemeUtils.getThemeForAccent(accentColor))
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -41,17 +34,12 @@ class SettingsActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener { finish() }
 
         themeStatusText = findViewById(R.id.themeStatusText)
-        accentStatusText = findViewById(R.id.accentStatusText)
         languageStatusText = findViewById(R.id.languageStatusText)
-        accentColorPreview = findViewById(R.id.accentColorPreview)
 
         findViewById<View>(R.id.themeLayout).setOnClickListener {
             showThemeSelectionDialog()
         }
 
-        findViewById<View>(R.id.accentLayout).setOnClickListener {
-            showAccentSelectionDialog()
-        }
 
         findViewById<View>(R.id.languageLayout).setOnClickListener {
             showLanguageSelectionDialog()
@@ -95,7 +83,6 @@ class SettingsActivity : AppCompatActivity() {
 
 
         updateThemeStatusText()
-        updateAccentStatus()
         updateLanguageStatusText()
     }
 
@@ -132,39 +119,6 @@ class SettingsActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun showAccentSelectionDialog() {
-        val accents = arrayOf(
-            getString(R.string.accent_blue),
-            getString(R.string.accent_purple),
-            getString(R.string.accent_green),
-            getString(R.string.accent_orange),
-            getString(R.string.accent_pink)
-        )
-        val colors = intArrayOf(
-            R.color.accent_blue,
-            R.color.accent_purple,
-            R.color.accent_green,
-            R.color.accent_orange,
-            R.color.accent_pink
-        )
-
-        val sharedPreferences = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
-        val currentAccent = sharedPreferences.getInt(KEY_ACCENT_COLOR, R.color.accent_blue)
-
-        val checkedItem = colors.indexOf(currentAccent).coerceAtLeast(0)
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(getString(R.string.select_accent_color))
-            .setSingleChoiceItems(accents, checkedItem) { dialog, which ->
-                val selectedColor = colors[which]
-                sharedPreferences.edit().putInt(KEY_ACCENT_COLOR, selectedColor).apply()
-
-                updateAccentStatus()
-                dialog.dismiss()
-                recreate()
-            }
-            .show()
-    }
 
     private fun showLanguageSelectionDialog() {
         val languages = arrayOf(
@@ -210,21 +164,6 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateAccentStatus() {
-        val sharedPreferences = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
-        val currentAccent = sharedPreferences.getInt(KEY_ACCENT_COLOR, R.color.accent_blue)
-
-        val accentName = when(currentAccent) {
-            R.color.accent_purple -> getString(R.string.accent_purple)
-            R.color.accent_green -> getString(R.string.accent_green)
-            R.color.accent_orange -> getString(R.string.accent_orange)
-            R.color.accent_pink -> getString(R.string.accent_pink)
-            else -> getString(R.string.accent_blue)
-        }
-
-        accentStatusText.text = accentName
-        accentColorPreview.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(this, currentAccent))
-    }
 
     private fun updateLanguageStatusText() {
         val currentLocaleCode = AppCompatDelegate.getApplicationLocales().get(0)?.language ?: ""
@@ -279,6 +218,5 @@ class SettingsActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_THEME = "prefs_theme"
-        const val KEY_ACCENT_COLOR = "prefs_accent_color"
     }
 }

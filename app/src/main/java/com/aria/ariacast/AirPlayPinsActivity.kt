@@ -21,9 +21,6 @@ class AirPlayPinsActivity : AppCompatActivity() {
     private lateinit var adapter: PinAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPreferences = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
-        val accentColor = sharedPreferences.getInt(SettingsActivity.KEY_ACCENT_COLOR, R.color.accent_blue)
-        setTheme(ThemeUtils.getThemeForAccent(accentColor))
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_airplay_pins)

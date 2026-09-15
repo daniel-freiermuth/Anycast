@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var serverListAdapter: ServerAdapter
     private lateinit var sharedPreferences: SharedPreferences
 
-    private var currentAccentColor: Int = R.color.accent_blue
     private var currentThemeMode: Int = ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM
 
     private val _audioCastServiceFlow = MutableStateFlow<AudioCastService?>(null)
@@ -387,9 +386,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
-        currentAccentColor = sharedPreferences.getInt(SettingsActivity.KEY_ACCENT_COLOR, R.color.accent_blue)
         currentThemeMode = sharedPreferences.getInt(SettingsActivity.KEY_THEME, ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM)
-        setTheme(ThemeUtils.getThemeForAccent(currentAccentColor))
         
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -640,10 +637,9 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         checkNotificationListenerPermission()
         
-        val newAccent = sharedPreferences.getInt(SettingsActivity.KEY_ACCENT_COLOR, R.color.accent_blue)
         val newThemeMode = sharedPreferences.getInt(SettingsActivity.KEY_THEME, ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM)
-        
-        if (newAccent != currentAccentColor || newThemeMode != currentThemeMode) {
+
+        if (newThemeMode != currentThemeMode) {
             recreate()
             return
         }
@@ -705,8 +701,7 @@ class MainActivity : AppCompatActivity() {
         
         castButton.isEnabled = (state == CastState.OFF && selectedServers.isNotEmpty()) || state == CastState.CASTING
         
-        val accentColor = sharedPreferences.getInt(SettingsActivity.KEY_ACCENT_COLOR, R.color.accent_blue)
-        val activeColor = ContextCompat.getColor(this, accentColor)
+        val activeColor = ContextCompat.getColor(this, R.color.accent_blue)
         val idleColor = ContextCompat.getColor(this, R.color.light_grey)
         val surfaceColor = ContextCompat.getColor(this, R.color.surface_card)
 
@@ -760,9 +755,7 @@ class ServerAdapter(
         holder.serverHost.text = if (server.platform != null) "${server.host} • ${server.platform}" else server.host
         
         val context = holder.itemView.context
-        val sharedPrefs = context.getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
-        val accentColor = sharedPrefs.getInt(SettingsActivity.KEY_ACCENT_COLOR, R.color.accent_blue)
-        val colorRes = ContextCompat.getColor(context, accentColor)
+        val colorRes = ContextCompat.getColor(context, R.color.accent_blue)
 
         if (selectedItem == position) {
             holder.cardView.setStrokeWidth(4)
