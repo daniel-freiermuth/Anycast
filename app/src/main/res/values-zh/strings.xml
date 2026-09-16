@@ -32,17 +32,9 @@
     <string name="casting">投放</string>
     <string name="about">关于</string>
     <string name="version_format">版本 %1$s</string>
-    <string name="select_appearance">选择外观</string>
-    <string name="theme_light">浅色</string>
-    <string name="theme_dark">深色</string>
-    <string name="theme_follow_system">跟随系统</string>
     <string name="secret_logs_one_tap">再点一次进入秘密日志…</string>
     <string name="secret_logs_multiple_taps">再点 %1$d 次进入秘密日志…</string>
     <string name="server_cleared">已清除上次服务器连接</string>
-    <string name="appearance">外观</string>
-    <string name="language">语言</string>
-    <string name="select_language">选择语言</string>
-    <string name="language_default">系统默认</string>
     <string name="notification_access">通知访问权限</string>
     <string name="notification_access_desc">媒体元数据所需</string>
     <string name="reset_last_server">重置上次服务器</string>

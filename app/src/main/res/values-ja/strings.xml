@@ -32,17 +32,9 @@
     <string name="casting">キャスト</string>
     <string name="about">このアプリについて</string>
     <string name="version_format">バージョン %1$s</string>
-    <string name="select_appearance">外観を選択</string>
-    <string name="theme_light">ライト</string>
-    <string name="theme_dark">ダーク</string>
-    <string name="theme_follow_system">システムに従う</string>
     <string name="secret_logs_one_tap">あと 1 回タップしてシークレットログを表示…</string>
     <string name="secret_logs_multiple_taps">あと %1$d 回タップしてシークレットログを表示…</string>
     <string name="server_cleared">最後のサーバー接続がクリアされました</string>
-    <string name="appearance">外観</string>
-    <string name="language">言語</string>
-    <string name="select_language">言語を選択</string>
-    <string name="language_default">システムデフォルト</string>
     <string name="notification_access">通知へのアクセス</string>
     <string name="notification_access_desc">メディアメタデータに必要です</string>
     <string name="reset_last_server">最後のサーバーをリセット</string>

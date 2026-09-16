@@ -32,17 +32,9 @@
     <string name="casting">Streaming</string>
     <string name="about">Über</string>
     <string name="version_format">Version %1$s</string>
-    <string name="select_appearance">Erscheinungsbild wählen</string>
-    <string name="theme_light">Hell</string>
-    <string name="theme_dark">Dunkel</string>
-    <string name="theme_follow_system">System folgen</string>
     <string name="secret_logs_one_tap">Noch einmal tippen für geheime Protokolle…</string>
     <string name="secret_logs_multiple_taps">Noch %1$d Mal tippen für geheime Protokolle…</string>
     <string name="server_cleared">Letzte Serververbindung gelöscht</string>
-    <string name="appearance">Erscheinungsbild</string>
-    <string name="language">Sprache</string>
-    <string name="select_language">Sprache wählen</string>
-    <string name="language_default">Systemstandard</string>
     <string name="notification_access">Benachrichtigungszugriff</string>
     <string name="notification_access_desc">Erforderlich für Medienmetadaten</string>
     <string name="reset_last_server">Letzten Server zurücksetzen</string>

@@ -44,17 +44,9 @@
     <string name="casting">Casting</string>
     <string name="about">About</string>
     <string name="version_format">Version %1$s</string>
-    <string name="select_appearance">Select Appearance</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
-    <string name="theme_follow_system">Follow System</string>
     <string name="secret_logs_one_tap">One more tap to enter secret logs…</string>
     <string name="secret_logs_multiple_taps">%1$d more taps to enter secret logs…</string>
     <string name="server_cleared">Last server connection cleared</string>
-    <string name="appearance">Appearance</string>
-    <string name="language">Language</string>
-    <string name="select_language">Select Language</string>
-    <string name="language_default">System Default</string>
     <string name="notification_access">Notification Access</string>
     <string name="notification_access_desc">Required for media metadata AND to start playback on some receivers</string>
     <string name="reset_last_server">Reset Last Server</string>

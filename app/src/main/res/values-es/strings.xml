@@ -32,17 +32,9 @@
     <string name="casting">Transmisión</string>
     <string name="about">Acerca de</string>
     <string name="version_format">Versión %1$s</string>
-    <string name="select_appearance">Seleccionar apariencia</string>
-    <string name="theme_light">Claro</string>
-    <string name="theme_dark">Oscuro</string>
-    <string name="theme_follow_system">Seguir sistema</string>
     <string name="secret_logs_one_tap">Un toque más para entrar en registros secretos…</string>
     <string name="secret_logs_multiple_taps">%1$d toques más para entrar en registros secretos…</string>
     <string name="server_cleared">Última conexión al servidor borrada</string>
-    <string name="appearance">Apariencia</string>
-    <string name="language">Idioma</string>
-    <string name="select_language">Seleccionar idioma</string>
-    <string name="language_default">Predeterminado del sistema</string>
     <string name="notification_access">Acceso a notificaciones</string>
     <string name="notification_access_desc">Requerido para metadatos multimedia</string>
     <string name="reset_last_server">Restablecer último servidor</string>

@@ -30,17 +30,9 @@
     <string name="casting">நடிப்பு</string>
     <string name="about">பற்றி</string>
     <string name="version_format">பதிப்பு %1$s</string>
-    <string name="select_appearance">தோற்றத்தைத் தேர்ந்தெடுக்கவும்</string>
-    <string name="theme_light">ஒளி</string>
-    <string name="theme_dark">இருள்</string>
-    <string name="theme_follow_system">சிச்டத்தைப் பின்பற்றவும்</string>
     <string name="secret_logs_one_tap">ரகசிய பதிவுகளை உள்ளிட இன்னும் ஒரு முறை தட்டவும்…</string>
     <string name="secret_logs_multiple_taps">ரகசியப் பதிவுகளை உள்ளிட இன்னும் %1$d தட்டுங்கள்…</string>
     <string name="server_cleared">கடைசியாக சர்வர் இணைப்பு அழிக்கப்பட்டது</string>
-    <string name="appearance">தோற்றம்</string>
-    <string name="language">மொழி</string>
-    <string name="select_language">மொழியைத் தேர்ந்தெடுக்கவும்</string>
-    <string name="language_default">கணினி இயல்புநிலை</string>
     <string name="notification_access">அறிவிப்பு அணுகல்</string>
     <string name="notification_access_desc">மீடியா மெட்டாடேட்டாவுக்குத் தேவை</string>
     <string name="reset_last_server">கடைசி சேவையகத்தை மீட்டமைக்கவும்</string>

@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var serverListAdapter: ServerAdapter
     private lateinit var sharedPreferences: SharedPreferences
 
-    private var currentThemeMode: Int = ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM
 
     private val _audioCastServiceFlow = MutableStateFlow<AudioCastService?>(null)
     val audioCastServiceFlow = _audioCastServiceFlow.asStateFlow()
@@ -198,7 +197,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = getSharedPreferences(AudioCastService.PREFS_NAME, Context.MODE_PRIVATE)
-        currentThemeMode = sharedPreferences.getInt(SettingsActivity.KEY_THEME, ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM)
         
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -427,12 +425,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         
-        val newThemeMode = sharedPreferences.getInt(SettingsActivity.KEY_THEME, ThemeUtils.MODE_NIGHT_FOLLOW_SYSTEM)
-
-        if (newThemeMode != currentThemeMode) {
-            recreate()
-            return
-        }
 
         _refreshTrigger.value++
         updateSyncUi()
