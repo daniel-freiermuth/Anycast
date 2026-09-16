@@ -775,7 +775,7 @@ class AirPlay2Client(
         val sb = StringBuilder()
         sb.append("$requestLine\r\n")
         sb.append("CSeq: ${++cseq}\r\n")
-        sb.append("User-Agent: AriaCast/1.0\r\n")
+        sb.append("User-Agent: AnyCast/1.0\r\n")
         sb.append("Client-Instance: ${deviceId.replace(":", "")}\r\n")
         sb.append("DACP-ID: $dacpId\r\n")
         sb.append("Active-Remote: $activeRemote\r\n")

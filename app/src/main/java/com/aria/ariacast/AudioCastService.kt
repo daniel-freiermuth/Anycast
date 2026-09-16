@@ -478,7 +478,7 @@ class AudioCastService : Service() {
 
             if (!initialized) {
                 Log.e(TAG, "Failed to initialize AudioRecord after $attempt attempts")
-                PacketLogger.log(PacketDirection.IN, PacketType.AUDIO, "AudioRecord failed to initialize after $attempt attempts — check Microphone permission for AriaCast")
+                PacketLogger.log(PacketDirection.IN, PacketType.AUDIO, "AudioRecord failed to initialize after $attempt attempts — check Microphone permission for AnyCast")
                 _state.value = CastState.ERROR
                 return@launch
             }
@@ -593,7 +593,7 @@ class AudioCastService : Service() {
                             responseHeaders.append("Cache-Control: no-cache, no-store, must-revalidate\r\n")
                             responseHeaders.append("Pragma: no-cache\r\n")
                             responseHeaders.append("Expires: 0\r\n")
-                            responseHeaders.append("ICY-NAME: AriaCast Stream\r\n")
+                            responseHeaders.append("ICY-NAME: AnyCast Stream\r\n")
                             responseHeaders.append("ICY-METADATA: 0\r\n")
                             responseHeaders.append("Access-Control-Allow-Origin: *\r\n")
                             responseHeaders.append("\r\n")
@@ -1793,9 +1793,9 @@ class AudioCastService : Service() {
                         <key>Metadata</key>
                         <dict>
                             <key>title</key>
-                            <string>${escapeXml(metadata.title ?: "AriaCast")}</string>
+                            <string>${escapeXml(metadata.title ?: "AnyCast")}</string>
                             <key>artist</key>
-                            <string>${escapeXml(metadata.artist ?: "AriaCast")}</string>
+                            <string>${escapeXml(metadata.artist ?: "AnyCast")}</string>
                         </dict>
                     </dict>
                     </plist>
@@ -1831,8 +1831,8 @@ class AudioCastService : Service() {
     }
 
     private fun createDidlMetadata(streamUrl: String, metadata: TrackMetadata?): String {
-        val title = metadata?.title ?: "AriaCast Live Stream"
-        val artist = metadata?.artist ?: "AriaCast"
+        val title = metadata?.title ?: "AnyCast Live Stream"
+        val artist = metadata?.artist ?: "AnyCast"
         val album = metadata?.album ?: ""
         val artwork = metadata?.artworkUrl ?: ""
 
@@ -2027,7 +2027,7 @@ class AudioCastService : Service() {
     private fun acquireWakeLock() {
         if (wakeLock == null) {
             val pm = getSystemService(POWER_SERVICE) as PowerManager
-            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AriaCast::Casting")
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AnyCast::Casting")
         }
         wakeLock?.acquire()
         Log.d(TAG, "Wake lock acquired")
@@ -2049,11 +2049,11 @@ class AudioCastService : Service() {
     private fun startVolumeSession() {
         stopVolumeSession()
         val dest = _activeDestinations.value.firstOrNull()
-        val session = MediaSession(this, "AriaCast")
+        val session = MediaSession(this, "AnyCast")
 
         session.setMetadata(MediaMetadata.Builder()
             .putString(MediaMetadata.METADATA_KEY_TITLE, dest?.name ?: "AirPlay")
-            .putString(MediaMetadata.METADATA_KEY_ARTIST, "AriaCast")
+            .putString(MediaMetadata.METADATA_KEY_ARTIST, "AnyCast")
             .build())
 
         session.setPlaybackState(PlaybackState.Builder()

@@ -258,7 +258,7 @@ class DiscoveryManager(private val context: Context) {
         
         try {
             if (multicastLock == null) {
-                multicastLock = wifiManager.createMulticastLock("AriaCastDiscoveryLock")
+                multicastLock = wifiManager.createMulticastLock("AnyCastDiscoveryLock")
             }
             multicastLock?.acquire()
         } catch (e: Exception) {}

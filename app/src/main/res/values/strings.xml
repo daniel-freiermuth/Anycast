@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name" translatable="false">AriaCast</string>
+    <string name="app_name" translatable="false">AnyCast</string>
     <string name="app_version" translatable="false">1.1.7</string>
-    <string name="tile_label" translatable="false">AriaCast</string>
-    <string name="ver" translatable="false">AriaCast 1.1.7</string>
+    <string name="tile_label" translatable="false">AnyCast</string>
+    <string name="ver" translatable="false">AnyCast 1.1.7</string>
 
     <!-- Update Manager -->
     <string name="ok">OK</string>
@@ -10,9 +10,9 @@
     <!-- Main Activity -->
     <string name="media_projection_denied">MediaProjection permission denied.</string>
     <string name="record_audio_permission_required">Microphone permission is required to capture and cast audio.</string>
-    <string name="record_audio_permission_permanently_denied">AriaCast needs microphone access to capture and cast audio, but it\'s been denied. Open Settings to grant it.</string>
+    <string name="record_audio_permission_permanently_denied">AnyCast needs microphone access to capture and cast audio, but it\'s been denied. Open Settings to grant it.</string>
     <string name="notification_access_required_title">Notification Access Required</string>
-    <string name="notification_access_required_message">This isn\'t just for showing track info: some receivers (like the Music Assistant AriaCast Receiver) only start playback once AriaCast tells them playback has started, and that signal is sent through Notification Access. Without it, casting can look connected and audio can be sent, but nothing will actually play.\n\nIf Android shows \"This setting is currently unavailable\" or \"Restricted setting\", go to Settings → Apps → AriaCast, tap the ⋮ menu in the top right, and choose \"Allow restricted settings\" — this is required for apps installed outside the Play Store. Then try enabling it again.</string>
+    <string name="notification_access_required_message">This isn\'t just for showing track info: some receivers (like the Music Assistant AriaCast Receiver) only start playback once AnyCast tells them playback has started, and that signal is sent through Notification Access. Without it, casting can look connected and audio can be sent, but nothing will actually play.\n\nIf Android shows \"This setting is currently unavailable\" or \"Restricted setting\", go to Settings → Apps → AnyCast, tap the ⋮ menu in the top right, and choose \"Allow restricted settings\" — this is required for apps installed outside the Play Store. Then try enabling it again.</string>
     <string name="open_notification_settings">Open Settings</string>
     <string name="select_server_first">Please select a server first.</string>
     <string name="scanning">Scanning…</string>

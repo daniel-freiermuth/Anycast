@@ -30,7 +30,7 @@
                 android:id="@+id/notification_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AriaCast"
+                android:text="AnyCast"
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Title" />
 
             <TextView

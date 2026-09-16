@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-   AriaCast talks plain HTTP/RTSP to whatever local speaker/receiver a user casts to
+   AnyCast talks plain HTTP/RTSP to whatever local speaker/receiver a user casts to
    (AirPlay, DLNA, Google Cast, RAOP, AriaCast-native), discovered at arbitrary IPs on
    the LAN via mDNS/SSDP/UDP broadcast - there's no fixed domain list for that, and
    Android's network security config can't express "cleartext OK only on private IP
