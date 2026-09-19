@@ -47,15 +47,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mediaProjectionManager: MediaProjectionManager
     private var audioCastService: AudioCastService? = null
     private var isBound = false
-    private var selectedServers: List<Server> = emptyList()
+    private var selectedServer: Server? = null
     private var isUserSelecting = false
 
     private lateinit var stateTextView: TextView
@@ -113,34 +111,17 @@ class MainActivity : AppCompatActivity() {
 
     private val startMediaProjection = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK && it.data != null) {
-            if (selectedServers.isNotEmpty()) {
+            val server = selectedServer ?: return@registerForActivityResult
                 val serviceIntent = Intent(this, AudioCastService::class.java).apply {
                     action = AudioCastService.ACTION_START
                     putExtra(AudioCastService.EXTRA_MEDIA_PROJECTION_TOKEN, it.data)
-                    
-                    if (selectedServers.size == 1) {
-                        val server = selectedServers[0]
-                        putExtra(AudioCastService.EXTRA_SERVER_HOST, server.host)
-                        putExtra(AudioCastService.EXTRA_SERVER_PORT, server.port)
-                        putExtra(AudioCastService.EXTRA_SERVER_NAME, server.name)
-                        putExtra(AudioCastService.EXTRA_SERVER_PLATFORM, server.platform)
-                        putExtra("com.aria.ariacast.EXTRA_SERVER_EXTRA", server.extra)
-                    } else {
-                        val array = JSONArray()
-                        selectedServers.forEach { s ->
-                            array.put(JSONObject().apply {
-                                put("name", s.name)
-                                put("host", s.host)
-                                put("port", s.port)
-                                put("platform", s.platform)
-                                put("extra", s.extra)
-                            })
-                        }
-                        putExtra(AudioCastService.EXTRA_SERVERS_JSON, array.toString())
-                    }
+                    putExtra(AudioCastService.EXTRA_SERVER_HOST, server.host)
+                    putExtra(AudioCastService.EXTRA_SERVER_PORT, server.port)
+                    putExtra(AudioCastService.EXTRA_SERVER_NAME, server.name)
+                    putExtra(AudioCastService.EXTRA_SERVER_PLATFORM, server.platform)
+                    putExtra("com.aria.ariacast.EXTRA_SERVER_EXTRA", server.extra)
                 }
                 ContextCompat.startForegroundService(this, serviceIntent)
-            }
         } else {
             Toast.makeText(this, getString(R.string.media_projection_denied), Toast.LENGTH_SHORT).show()
         }
@@ -188,8 +169,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun castToServers(servers: List<Server>) {
-        selectedServers = servers
+    fun castToServer(server: Server) {
+        selectedServer = server
         beginCast()
     }
 
@@ -219,7 +200,7 @@ class MainActivity : AppCompatActivity() {
             onServerClick = { server ->
                 statusCard.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
                 isUserSelecting = true
-                castToServers(listOf(server))
+                castToServer(server)
             },
             onDeleteClick = { server ->
                 statusCard.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
@@ -241,7 +222,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 startService(serviceIntent)
             } else {
-                if (selectedServers.isNotEmpty()) {
+                if (selectedServer != null) {
                     beginCast()
                 } else {
                     Toast.makeText(this, getString(R.string.select_server_first), Toast.LENGTH_SHORT).show()
@@ -267,20 +248,20 @@ class MainActivity : AppCompatActivity() {
 
                 val lastHost = sharedPreferences.getString(AudioCastService.KEY_LAST_SERVER_HOST, null)
                 
-                if (isUserSelecting && selectedServers.size == 1) {
-                    val sel = selectedServers[0]
+                if (isUserSelecting && selectedServer != null) {
+                    val sel = selectedServer!!
                     val found = servers.find { it.host == sel.host && it.platform == sel.platform }
                         ?: servers.find { it.host == sel.host }
                     if (found != null) {
-                        selectedServers = listOf(found)
+                        selectedServer = found
                         serverListAdapter.setSelectedItem(servers.indexOf(found))
                     }
-                } else if (lastHost != null && selectedServers.isEmpty()) {
+                } else if (lastHost != null && selectedServer == null) {
                     val lastPlatform = sharedPreferences.getString(AudioCastService.KEY_LAST_SERVER_PLATFORM, null)
                     val lastServer = servers.find { it.host == lastHost && (lastPlatform == null || it.platform == lastPlatform) }
                         ?: servers.find { it.host == lastHost }
                     if (lastServer != null) {
-                        selectedServers = listOf(lastServer)
+                        selectedServer = lastServer
                         serverListAdapter.setSelectedItem(servers.indexOf(lastServer))
                     }
                 }
@@ -474,7 +455,7 @@ class MainActivity : AppCompatActivity() {
             }.start()
         }
         
-        castButton.isEnabled = (state == CastState.OFF && selectedServers.isNotEmpty()) || state == CastState.CASTING
+        castButton.isEnabled = (state == CastState.OFF && selectedServer != null) || state == CastState.CASTING
         
         val activeColor = ContextCompat.getColor(this, R.color.accent_blue)
         val idleColor = ContextCompat.getColor(this, R.color.light_grey)

@@ -318,9 +318,9 @@ class AudioCastService : Service() {
 
                 val mediaProjectionToken = intent.getParcelableExtra(EXTRA_MEDIA_PROJECTION_TOKEN, Intent::class.java)
 
-                val destinations = parseDestinations(intent)
-                if (mediaProjectionToken != null && destinations.isNotEmpty()) {
-                    startCasting(mediaProjectionToken, destinations)
+                val destination = parseDestination(intent)
+                if (mediaProjectionToken != null && destination != null) {
+                    startCasting(mediaProjectionToken, destination)
                 }
                 return START_STICKY
             }
@@ -340,43 +340,28 @@ class AudioCastService : Service() {
         return START_NOT_STICKY
     }
 
-    private fun parseDestinations(intent: Intent): List<CastDestination> {
-        val destinations = mutableListOf<CastDestination>()
-        val serversJson = intent.getStringExtra(EXTRA_SERVERS_JSON)
-        if (serversJson != null) {
-            val array = JSONArray(serversJson)
-            for (i in 0 until array.length()) {
-                val obj = array.getJSONObject(i)
-                destinations.add(CastDestination(
-                    name = obj.getString("name"),
-                    host = obj.getString("host"),
-                    port = obj.getInt("port"),
-                    platform = obj.optString("platform", null),
-                    extra = obj.optString("extra", null)
-                ))
-            }
+    private fun parseDestination(intent: Intent): CastDestination? {
+        val host = intent.getStringExtra(EXTRA_SERVER_HOST)
+        val port = intent.getIntExtra(EXTRA_SERVER_PORT, 0)
+        val name = intent.getStringExtra(EXTRA_SERVER_NAME)
+        val platform = intent.getStringExtra(EXTRA_SERVER_PLATFORM)
+        val extra = intent.getStringExtra(EXTRA_SERVER_EXTRA)
+        return if (host != null && port != 0 && name != null) {
+            CastDestination(name, host, port, platform, extra = extra)
+        } else if (platform == "DLNA" && host != null && name != null) {
+            CastDestination(name, host, 0, platform, extra = extra)
         } else {
-            val host = intent.getStringExtra(EXTRA_SERVER_HOST)
-            val port = intent.getIntExtra(EXTRA_SERVER_PORT, 0)
-            val name = intent.getStringExtra(EXTRA_SERVER_NAME)
-            val platform = intent.getStringExtra(EXTRA_SERVER_PLATFORM)
-            val extra = intent.getStringExtra(EXTRA_SERVER_EXTRA)
-            if (host != null && port != 0 && name != null) {
-                destinations.add(CastDestination(name, host, port, platform, extra = extra))
-            } else if (platform == "DLNA" && host != null && name != null) {
-                destinations.add(CastDestination(name, host, 0, platform, extra = extra))
-            }
+            null
         }
-        return destinations
     }
 
 
 
     @SuppressLint("MissingPermission")
-    private fun startCasting(mediaProjectionToken: Intent, destinations: List<CastDestination>) {
+    private fun startCasting(mediaProjectionToken: Intent, destination: CastDestination) {
         sessionJob?.cancel()
-        
-        _activeDestinations.value = destinations
+
+        _activeDestinations.value = listOf(destination)
         _state.value = CastState.CONNECTING
         sessionJob = SupervisorJob()
         val sessionScope = CoroutineScope(Dispatchers.IO + sessionJob!!)
@@ -384,14 +369,12 @@ class AudioCastService : Service() {
         originalVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
 
-        if (destinations.size == 1) {
-            with(sharedPreferences.edit()) {
-                putString(KEY_LAST_SERVER_HOST, destinations[0].host)
-                putInt(KEY_LAST_SERVER_PORT, destinations[0].port)
-                putString(KEY_LAST_SERVER_NAME, destinations[0].name)
-                putString(KEY_LAST_SERVER_PLATFORM, destinations[0].platform)
-                apply()
-            }
+        with(sharedPreferences.edit()) {
+            putString(KEY_LAST_SERVER_HOST, destination.host)
+            putInt(KEY_LAST_SERVER_PORT, destination.port)
+            putString(KEY_LAST_SERVER_NAME, destination.name)
+            putString(KEY_LAST_SERVER_PLATFORM, destination.platform)
+            apply()
         }
 
         try {
@@ -410,7 +393,7 @@ class AudioCastService : Service() {
         }
 
         acquireWakeLock()
-        if (destinations.any { it.platform in listOf("AirPlay", "AirPlay2", "AriaCast", "DLNA") }) {
+        if (destination.platform in listOf("AirPlay", "AirPlay2", "AriaCast", "DLNA")) {
             startVolumeSession()
         }
 
@@ -446,7 +429,7 @@ class AudioCastService : Service() {
                     // AirPlay 1 (RAOP) requires 44100 Hz — shairport-sync ignores SDP sample rate.
                     // Android's AudioFlinger resamples internally when the capture rate
                     // differs from the source, so this is transparent and correct.
-                    val captureRate = if (destinations.any { it.platform == "AirPlay" }) 44100 else SAMPLE_RATE
+                    val captureRate = if (destination.platform == "AirPlay") 44100 else SAMPLE_RATE
                     val minBufSize = AudioRecord.getMinBufferSize(captureRate, AudioFormat.CHANNEL_IN_STEREO, AudioFormat.ENCODING_PCM_16BIT)
                     val bufferSize = (FRAME_SIZE * 4).coerceAtLeast(minBufSize)
 
@@ -484,7 +467,7 @@ class AudioCastService : Service() {
             }
 
 
-            if (destinations.any { it.platform == "DLNA" || it.platform == "Google Cast" || it.platform == "AirPlay" }) {
+            if (destination.platform in listOf("DLNA", "Google Cast", "AirPlay")) {
                 startDlnaHttpServer()
                 startArtworkServer()
             }
@@ -521,18 +504,16 @@ class AudioCastService : Service() {
                 }
             }
 
-            destinations.forEach { dest ->
-                when (dest.platform) {
-                    "DLNA" -> launch { startDlnaSession(dest) }
-                    "Google Cast" -> launch { startGoogleCastSession(dest) }
-                    "AirPlay" -> launch { startAirPlaySession(dest) }
-                    "AirPlay2" -> launch { startAirPlay2Session(dest) }
-                    "Snapcast" -> launch { startSnapcastSession(dest) }
-                    else -> {
-                        launch { startControlSession(dest) }
-                        launch { startAudioSession(dest) }
-                        launch { startStatsSession(dest) }
-                    }
+            when (destination.platform) {
+                "DLNA" -> launch { startDlnaSession(destination) }
+                "Google Cast" -> launch { startGoogleCastSession(destination) }
+                "AirPlay" -> launch { startAirPlaySession(destination) }
+                "AirPlay2" -> launch { startAirPlay2Session(destination) }
+                "Snapcast" -> launch { startSnapcastSession(destination) }
+                else -> {
+                    launch { startControlSession(destination) }
+                    launch { startAudioSession(destination) }
+                    launch { startStatsSession(destination) }
                 }
             }
             
@@ -2218,7 +2199,6 @@ class AudioCastService : Service() {
         const val EXTRA_SERVER_NAME = "com.aria.ariacast.EXTRA_SERVER_NAME"
         const val EXTRA_SERVER_PLATFORM = "com.aria.ariacast.EXTRA_SERVER_PLATFORM"
         const val EXTRA_SERVER_EXTRA = "com.aria.ariacast.EXTRA_SERVER_EXTRA"
-        const val EXTRA_SERVERS_JSON = "com.aria.ariacast.EXTRA_SERVERS_JSON"
 
         const val PREFS_NAME = "AriaCastPrefs"
         // AirPlay 2 pairing PINs live in a separate prefs file, excluded from Android
