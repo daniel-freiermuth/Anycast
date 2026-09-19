@@ -30,7 +30,7 @@
                 android:id="@+id/notification_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AnyCast"
+                android:text="CreoleCast"
                 android:textAppearance="@style/TextAppearance.Compat.Notification.Title" />
 
             <TextView
