@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AriaCast"
+rootProject.name = "CreoleCast"
 include(":app")

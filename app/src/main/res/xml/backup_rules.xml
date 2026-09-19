@@ -3,8 +3,8 @@
    Legacy Auto Backup config (android:fullBackupContent), consulted only below API 31 -
    this app's minSdk is 31 so it's effectively unused today, but kept in sync with
    data_extraction_rules.xml in case that ever changes. See its comment for why
-   AriaCastSecurePrefs is excluded.
+   CreoleCastSecurePrefs is excluded.
 -->
 <full-backup-content>
-    <exclude domain="sharedpref" path="AriaCastSecurePrefs.xml" />
+    <exclude domain="sharedpref" path="CreoleCastSecurePrefs.xml" />
 </full-backup-content>

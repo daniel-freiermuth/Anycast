@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-   AriaCastSecurePrefs holds AirPlay 2 pairing PINs (see AudioCastService.SECURE_PREFS_NAME)
+   CreoleCastSecurePrefs holds AirPlay 2 pairing PINs (see AudioCastService.SECURE_PREFS_NAME)
    and is deliberately excluded here - those shouldn't ride along in a cloud backup or a
    device-to-device transfer of the app's ordinary settings.
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <exclude domain="sharedpref" path="AriaCastSecurePrefs.xml" />
+        <exclude domain="sharedpref" path="CreoleCastSecurePrefs.xml" />
     </cloud-backup>
     <device-transfer>
-        <exclude domain="sharedpref" path="AriaCastSecurePrefs.xml" />
+        <exclude domain="sharedpref" path="CreoleCastSecurePrefs.xml" />
     </device-transfer>
 </data-extraction-rules>

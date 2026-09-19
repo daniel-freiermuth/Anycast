@@ -72,7 +72,7 @@ alac_encode_uncompressed(uint8_t *dst, uint8_t *raw, int len)
 }
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_com_aria_ariacast_raop_NativeAlac_createEncoder(
+Java_com_creolecast_app_raop_NativeAlac_createEncoder(
         JNIEnv *, jobject, jint sampleRate, jint channels, jint frameSize) {
     auto *wrapper = new AlacEncoderWrapper();
     wrapper->sampleRate = (uint32_t)sampleRate;
@@ -84,7 +84,7 @@ Java_com_aria_ariacast_raop_NativeAlac_createEncoder(
 }
 
 extern "C" JNIEXPORT jint JNICALL
-Java_com_aria_ariacast_raop_NativeAlac_encode(
+Java_com_creolecast_app_raop_NativeAlac_encode(
         JNIEnv *env, jobject, jlong handle, jbyteArray pcmBytes, jint pcmLen, jbyteArray outBuffer) {
     auto *wrapper = reinterpret_cast<AlacEncoderWrapper *>(handle);
     if (!wrapper) return 0;
@@ -109,7 +109,7 @@ Java_com_aria_ariacast_raop_NativeAlac_encode(
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_aria_ariacast_raop_NativeAlac_destroyEncoder(JNIEnv *, jobject, jlong handle) {
+Java_com_creolecast_app_raop_NativeAlac_destroyEncoder(JNIEnv *, jobject, jlong handle) {
     auto *wrapper = reinterpret_cast<AlacEncoderWrapper *>(handle);
     if (wrapper) {
         free(wrapper->outputBuffer);

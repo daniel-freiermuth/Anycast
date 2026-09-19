@@ -1,13 +1,13 @@
 <div align="center">
   
-  <h1>Anycast for Android</h1>
-  <p><b><i>Stream any audio from your Android device to any speaker in your home.</i></b></p>
+  <h1>CreoleCast for Android</h1>
+  <p><b><i>Any audio to any speaker on your network.</i></b></p>
 </div>
 
 <hr />
 
 <h2>🚀 Supported Streaming Protocols</h2>
-<p>We believe in open standards. Anycast allows you to stream to a wide array of devices:</p>
+<p>We believe in open standards. CreoleCast allows you to stream to a wide array of devices:</p>
 
 <ul>
   <li><b>AriaCast:</b> Protocol using binary WebSockets for low-latency, high-fidelity audio with rich metadata sync.</li>
@@ -33,17 +33,17 @@
 
 <h2>🎵 Audio Source Compatibility</h2>
 <p>
-  Anycast captures audio at the system level via the <code>MediaProjection</code> API. 
+  CreoleCast captures audio at the system level via the <code>MediaProjection</code> API. 
   While this allows for broad compatibility, please note the following regarding content sources:
 </p>
 
 <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; border-left: 5px solid #ffc107; color: #856404;">
   <strong>Note on DRM-Protected Content:</strong> 
   Some major streaming services (like Spotify, YouTube Music, etc.) implement strict <code>FLAG_SECURE</code> 
-  or DRM protections that prevent system-level audio capture. Consequently, Anycast may not be able 
+  or DRM protections that prevent system-level audio capture. Consequently, CreoleCast may not be able 
   to stream audio from these specific apps by default.
   <br><br>
-  <strong>Anycast shines with:</strong>
+  <strong>CreoleCast shines with:</strong>
   <ul>
     <li><b>Local Music Players:</b> Perfect for Poweramp, Musicolet, or any player managing your personal FLAC/MP3 library.</li>
     <li><b>Podcasts & Audiobooks:</b> Great for AntennaPod or other open-source audio apps.</li>

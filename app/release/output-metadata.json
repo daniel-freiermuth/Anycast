@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.aria.ariacast",
+  "applicationId": "com.creolecast.app",
   "variantName": "release",
   "elements": [
     {

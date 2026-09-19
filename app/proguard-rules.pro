@@ -24,11 +24,11 @@
 
 # ---- kotlinx.serialization (@Serializable classes, e.g. TrackMetadata) ----
 -keepattributes *Annotation*, InnerClasses
--keepclasseswithmembers class com.aria.ariacast.** {
+-keepclasseswithmembers class com.creolecast.app.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
--keep,includedescriptorclasses class com.aria.ariacast.**$$serializer { *; }
--keepclassmembers class com.aria.ariacast.** {
+-keep,includedescriptorclasses class com.creolecast.app.**$$serializer { *; }
+-keepclassmembers class com.creolecast.app.** {
     *** Companion;
 }
 

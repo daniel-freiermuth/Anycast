@@ -21,7 +21,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.aria.ariacast"
+    namespace = "com.creolecast.app"
     compileSdk = 35
 
     signingConfigs {
@@ -37,7 +37,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.aria.ariacast"
+        applicationId = "com.creolecast.app"
         minSdk = 34
         targetSdk = 35
         versionCode = 14

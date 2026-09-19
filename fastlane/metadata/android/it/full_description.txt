@@ -1,6 +1,6 @@
 Cattura e trasmetti l'audio interno del tuo dispositivo Android a qualsiasi ricevitore sulla tua rete locale.
 
-AriaCast è una potente applicazione Android che ti consente di trasmettere l'audio da qualsiasi applicazione, come Spotify, YouTube Music o Pocket Casts, a un server personalizzato designato. Questo trasforma efficacemente qualsiasi computer o dispositivo compatibile sulla tua rete in un altoparlante di rete ad alta fedeltà.
+CreoleCast è una potente applicazione Android che ti consente di trasmettere l'audio da qualsiasi applicazione, come Spotify, YouTube Music o Pocket Casts, a un server personalizzato designato. Questo trasforma efficacemente qualsiasi computer o dispositivo compatibile sulla tua rete in un altoparlante di rete ad alta fedeltà.
 
 Caratteristiche:
 
